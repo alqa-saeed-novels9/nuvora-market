@@ -2,159 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>Nuvora Market | Seller Workspace</title>
+<title>Nuvora Market — Business Workspace</title>
 <style>
-:root{--ink:#172033;--muted:#687386;--line:#e7eaf0;--paper:#fff;--wash:#f5f7fb;--navy:#17243a;--violet:#6652a3;--green:#16845b;--red:#b54755}
-*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-.shell{max-width:1120px;margin:auto;padding:22px}
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}
-.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:750;font-size:19px}
-.brand h1{font-size:19px;letter-spacing:-.4px;margin:0}.brand p{margin:1px 0 0;color:var(--muted);font-size:12px}
-.header-note{font-size:12px;color:var(--muted)}
-.intro{padding:25px 0 22px;border-bottom:1px solid var(--line);margin-bottom:20px}.intro h2{font-size:clamp(24px,4vw,32px);letter-spacing:-1px;margin:0 0 6px}.intro p{margin:0;color:var(--muted);max-width:650px}
-.tabs{display:flex;gap:7px;overflow:auto;padding:3px 0 15px}.tab{border:1px solid var(--line);background:#fff;color:#475267;padding:9px 13px;border-radius:9px;white-space:nowrap}.tab.active{background:var(--navy);border-color:var(--navy);color:#fff}
-.view.hidden{display:none!important}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:4px 0 16px}.panel,.stat{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:5px;font-weight:650;letter-spacing:-.5px}
-.panel{margin-bottom:14px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.panel h3{font-size:16px;margin:0;font-weight:650}
-.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.quick button{background:#fff;border:1px solid var(--line);border-radius:10px;text-align:left;padding:14px;color:var(--ink)}.quick button:hover,.tab:hover{border-color:#a9a0c7}.quick b{display:block;font-size:14px}.quick span{font-size:12px;color:var(--muted)}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field.full{grid-column:1/-1}label{display:block;font-size:12px;font-weight:600;color:#566176;margin-bottom:5px}
-input,select,textarea{width:100%;min-width:0;border:1px solid #d9dee8;border-radius:8px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px #6652a319}
-.btn{border:0;border-radius:8px;padding:10px 14px;background:var(--navy);color:white;font-weight:600}.btn.secondary{background:#eef0f5;color:#354056}.btn.danger{background:#fff0f1;color:var(--red);border:1px solid #f0d3d7}
-.muted{color:var(--muted);font-size:12px}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #d9dee8;border-radius:9px}
-.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
-.pill{display:inline-block;border-radius:99px;padding:3px 8px;background:#eef1f6;color:#4c5870;font-size:11px}.pill.green{background:#e7f5ee;color:#14744e}.pill.red{background:#fff0f1;color:#a63847}
-.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.result{background:#f7f8fb;border:1px solid var(--line);border-radius:9px;padding:12px}.result small{display:block;color:var(--muted)}.result strong{font-size:19px}
-.footer{text-align:center;padding:20px 0;color:#8790a0;font-size:11px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17243a;color:#fff;padding:10px 15px;border-radius:9px;display:none;z-index:5}
-@media(max-width:700px){.shell{padding:14px}.stats{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:1fr}.calc-grid{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.header-note{max-width:120px;text-align:right}}
-@media(max-width:430px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.panel{padding:13px}.stat{padding:13px}.stat strong{font-size:22px}}
+:root{--bg:#f4f6fb;--surface:#fff;--ink:#182238;--muted:#748096;--line:#e5e9f1;--navy:#111d32;--purple:#7658bd;--purple2:#eee9fa;--green:#16845b;--red:#b54755;--amber:#a56b12;--shadow:0 8px 28px #1822380a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1440px;margin:auto;min-height:100vh}.top{height:72px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:10}.brand{display:flex;gap:11px;align-items:center}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#252044,#111d32);display:grid;place-items:center;color:#d9c9ff;font-size:23px;font-weight:800}.brand b{font-size:17px;letter-spacing:-.4px}.brand small{display:block;color:var(--muted);font-size:11px}.topright{display:flex;align-items:center;gap:12px}.localflag{font-size:11px;color:#865b12;background:#fff5df;border:1px solid #f3e4bd;padding:6px 10px;border-radius:20px}
+.layout{display:grid;grid-template-columns:225px 1fr;min-height:calc(100vh - 72px)}aside{background:#fff;border-right:1px solid var(--line);padding:20px 13px}.navlabel{font-size:10px;color:#9aa3b2;font-weight:800;letter-spacing:1.1px;padding:10px 11px 7px}.nav button{width:100%;border:0;background:transparent;text-align:left;padding:10px 11px;border-radius:9px;color:#5c667b;margin:2px 0;display:flex;gap:10px;align-items:center}.nav button:hover{background:#f7f5fc}.nav button.active{background:var(--purple2);color:#553a99;font-weight:700}.nav .ico{width:20px;text-align:center;font-size:16px}
+main{padding:27px;min-width:0}.pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}.pagehead h1{font-size:25px;letter-spacing:-.7px;margin:0 0 4px}.pagehead p{color:var(--muted);margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;background:var(--navy);color:#fff;border-radius:9px;padding:9px 13px;font-weight:650}.btn:hover{filter:brightness(1.12)}.btn.soft{background:#f0edf8;color:#57418f}.btn.outline{background:#fff;color:#44506a;border:1px solid var(--line)}.btn.danger{background:#fff0f1;color:var(--red);border:1px solid #f3d8dc}.btn.sm{padding:6px 9px;font-size:12px}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:15px}.card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:var(--shadow);min-width:0}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;letter-spacing:-.5px;margin-top:5px}.stat .hint{font-size:11px;color:var(--muted);margin-top:3px}.two{grid-template-columns:1.15fr .85fr}.three{grid-template-columns:repeat(3,1fr)}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.card h3{margin:0;font-size:15px}.muted{color:var(--muted)}.small{font-size:12px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field.full{grid-column:1/-1}label{display:block;font-size:12px;font-weight:650;color:#58647a;margin-bottom:5px}input,select,textarea{width:100%;padding:10px 11px;border:1px solid #dce2ec;border-radius:8px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #7658bd18}textarea{resize:vertical}.row{display:flex;gap:9px;align-items:center}.row>*{min-width:0}.search{max-width:240px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:middle}th{color:#8b95a6;font-size:10px;text-transform:uppercase;letter-spacing:.6px}td b{font-size:12px}.pill{display:inline-block;border-radius:30px;padding:3px 8px;background:#eff2f6;color:#5e687a;font-size:10px}.pill.green{background:#e7f5ee;color:#14744e}.pill.red{background:#fff0f1;color:#a63847}.pill.amber{background:#fff5df;color:#96610e}.empty{border:1px dashed #dce2ec;border-radius:10px;padding:25px;text-align:center;color:var(--muted)}.hidden{display:none!important}
+.toolbar{display:flex;gap:9px;align-items:end;flex-wrap:wrap;margin-bottom:14px}.toolbar .field{min-width:140px}.notice{padding:12px 14px;border-radius:10px;background:#f2effa;border:1px solid #e4dcf5;color:#57418f;font-size:12px;margin-bottom:14px}.warning{background:#fff7e7;border-color:#f0e1bd;color:#7f5a18}.metric{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}.metric:last-child{border:0}.positive{color:var(--green)}.negative{color:var(--red)}.bar{height:8px;background:#f0edf8;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,#7658bd,#aa91e4);border-radius:20px}.yearbox{display:flex;gap:8px;align-items:center}.yearbox select{width:auto}.footer{text-align:center;color:#98a1af;font-size:11px;padding:22px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17243a;color:white;padding:10px 16px;border-radius:10px;display:none;z-index:30;box-shadow:var(--shadow)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{padding:8px 12px;border-right:0;border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:8;overflow:auto}.nav{display:flex;gap:4px;min-width:max-content}.navlabel{display:none}.nav button{width:auto;white-space:nowrap;padding:8px 10px}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:560px){.top{padding:0 13px}.topright .localflag{display:none}main{padding:17px 12px}.pagehead{display:block}.pagehead .actions{margin-top:12px}.stats{gap:8px}.card{padding:13px}.stat strong{font-size:21px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.three{grid-template-columns:1fr}.brand b{font-size:15px}}
 </style>
 </head>
 <body>
-<div class="shell">
-<header>
- <div class="brand"><div class="mark">N</div><div><h1>Nuvora Market</h1><p>Business tools for independent sellers</p></div></div>
- <div class="header-note">Your shop, organised.</div>
-</header>
-<section class="intro">
- <h2>Good business starts with a clear view.</h2>
- <p>Keep orders, products and everyday business numbers organised in one simple workspace.</p>
-</section>
-<nav class="tabs" aria-label="Main navigation">
- <button class="tab active" data-view="dashboard" type="button">Overview</button>
- <button class="tab" data-view="orders" type="button">Orders</button>
- <button class="tab" data-view="products" type="button">Products & stock</button>
- <button class="tab" data-view="profit" type="button">Profit calculator</button>
- <button class="tab" data-view="messages" type="button">Message templates</button>
-</nav>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">N</div><div><b>Nuvora Market</b><small>All-in-one business workspace</small></div></div><div class="topright"><span class="localflag">Prototype · data stored on this device</span><button class="btn soft sm" onclick="showPage('settings')">Settings</button></div></header>
+<div class="layout">
+<aside><div class="navlabel">WORKSPACE</div><nav class="nav" id="nav">
+<button class="active" data-page="dashboard"><span class="ico">▦</span>Overview</button>
+<button data-page="orders"><span class="ico">▤</span>Orders & Sales</button>
+<button data-page="products"><span class="ico">▣</span>Products & Stock</button>
+<button data-page="accounting"><span class="ico">▧</span>Accounting</button>
+<button data-page="customers"><span class="ico">♙</span>Customers</button>
+<button data-page="suppliers"><span class="ico">⇄</span>Suppliers</button>
+<button data-page="employees"><span class="ico">♧</span>Employees</button>
+<button data-page="reports"><span class="ico">▥</span>Reports & History</button>
+<button data-page="messages"><span class="ico">✉</span>Message Assistant</button>
+<button data-page="store"><span class="ico">⌂</span>Online Store</button>
+<button data-page="settings"><span class="ico">⚙</span>Data & Settings</button>
+</nav></aside>
 <main>
 <section id="dashboard" class="view">
- <div class="stats">
-  <div class="stat"><small>Total orders</small><strong id="mOrders">0</strong></div>
-  <div class="stat"><small>Open orders</small><strong id="mOpen">0</strong></div>
-  <div class="stat"><small>Sales recorded</small><strong id="mSales">$0.00</strong></div>
-  <div class="stat"><small>Products</small><strong id="mProducts">0</strong></div>
- </div>
- <div class="panel"><div class="panel-head"><h3>Quick actions</h3><span class="muted">Common tasks</span></div>
-  <div class="quick">
-   <button type="button" data-go="orders"><b>＋ Add an order</b><span>Record a customer purchase</span></button>
-   <button type="button" data-go="products"><b>＋ Add a product</b><span>Update your catalogue and stock</span></button>
-   <button type="button" data-go="profit"><b>Calculate profit</b><span>Review costs and selling price</span></button>
-  </div>
- </div>
- <div class="panel"><h3 style="margin-bottom:12px">Recent orders</h3><div id="recentOrders" class="empty">No orders yet. Add your first order to get started.</div></div>
-</section>
-<section id="orders" class="view hidden">
- <div class="panel"><div class="panel-head"><h3>Add a new order</h3><span class="muted">Use test details while trying the workspace</span></div>
-  <form id="orderForm" class="formgrid">
-   <div><label for="customer">Customer name *</label><input id="customer" required maxlength="60" placeholder="Customer name"></div>
-   <div><label for="reference">Order reference</label><input id="reference" maxlength="30" placeholder="e.g. ORD-001"></div>
-   <div><label for="item">Product / item *</label><input id="item" required maxlength="80" placeholder="Product name"></div>
-   <div><label for="amount">Order amount *</label><input id="amount" type="number" min="0" step="0.01" required placeholder="0.00"></div>
-   <div><label for="payment">Payment status</label><select id="payment"><option>Unpaid</option><option>Part-paid</option><option>Paid</option></select></div>
-   <div><label for="status">Order status</label><select id="status"><option>New</option><option>Confirmed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
-   <div class="field full"><button class="btn" type="submit">Save order</button></div>
-  </form>
- </div>
- <div class="panel"><div class="panel-head"><h3>Order list</h3><input id="orderSearch" style="max-width:230px" placeholder="Search orders" aria-label="Search orders"></div><div id="orderList"></div></div>
-</section>
-<section id="products" class="view hidden">
- <div class="panel"><h3 style="margin-bottom:13px">Add a product</h3>
-  <form id="productForm" class="formgrid">
-   <div><label for="productName">Product name *</label><input id="productName" required maxlength="80" placeholder="e.g. Cotton scarf"></div>
-   <div><label for="sku">SKU / code</label><input id="sku" maxlength="30" placeholder="Optional"></div>
-   <div><label for="productPrice">Selling price *</label><input id="productPrice" type="number" min="0" step="0.01" required placeholder="0.00"></div>
-   <div><label for="stock">Stock quantity</label><input id="stock" type="number" min="0" step="1" value="0"></div>
-   <div class="field full"><button class="btn" type="submit">Save product</button></div>
-  </form>
- </div>
- <div class="panel"><h3 style="margin-bottom:12px">Product catalogue</h3><div id="productList"></div></div>
-</section>
-<section id="profit" class="view hidden">
- <div class="panel"><h3>Profit calculator</h3><p class="muted">Enter your costs and selling price to estimate profit before any costs or taxes not included here.</p>
-  <div class="formgrid">
-   <div><label for="cost">Product cost</label><input id="cost" type="number" min="0" step="0.01" value="0"></div>
-   <div><label for="pack">Packaging cost</label><input id="pack" type="number" min="0" step="0.01" value="0"></div>
-   <div><label for="delivery">Delivery / other seller cost</label><input id="delivery" type="number" min="0" step="0.01" value="0"></div>
-   <div><label for="sell">Selling price</label><input id="sell" type="number" min="0" step="0.01" value="0"></div>
-  </div>
-  <div class="calc-grid">
-   <div class="result"><small>Total cost</small><strong id="totalCost">$0.00</strong></div>
-   <div class="result"><small>Estimated profit</small><strong id="profitValue">$0.00</strong></div>
-   <div class="result"><small>Profit margin</small><strong id="marginValue">0%</strong></div>
-   <div class="result"><small>Break-even price</small><strong id="breakEven">$0.00</strong></div>
-  </div>
-  <p class="muted">Amounts are currently displayed in USD.</p>
- </div>
-</section>
-<section id="messages" class="view hidden">
- <div class="panel"><h3 style="margin-bottom:13px">Customer message templates</h3><p class="muted">Personalise a message, then copy it into WhatsApp or Instagram.</p>
-  <div class="formgrid">
-   <div><label for="templateType">Message type</label><select id="templateType"><option value="confirm">Order confirmation</option><option value="payment">Payment reminder</option><option value="dispatch">Dispatch update</option><option value="delay">Delivery delay</option><option value="feedback">Feedback request</option></select></div>
-   <div><label for="msgName">Customer first name</label><input id="msgName" placeholder="Customer name"></div>
-   <div><label for="msgOrder">Order reference</label><input id="msgOrder" placeholder="Order number"></div>
-   <div><label for="shopName">Shop name</label><input id="shopName" placeholder="Your shop name"></div>
-   <div class="field full"><label for="messageOutput">Your message</label><textarea id="messageOutput" rows="5"></textarea></div>
-   <div class="field full"><button class="btn" id="copyMessage" type="button">Copy message</button></div>
-  </div>
- </div>
-</section>
-</main>
-<div class="footer">Nuvora Market · Seller workspace</div>
+<div class="pagehead"><div><h1>Business overview</h1><p>A clear picture of your business, all in one place.</p></div><div class="actions"><button class="btn" onclick="showPage('orders')">＋ Add order</button><button class="btn soft" onclick="showPage('accounting')">＋ Add transaction</button></div></div>
+<div class="grid stats">
+<div class="card stat"><small>Orders this year</small><strong id="dOrders">0</strong><div class="hint">Selected year</div></div>
+<div class="card stat"><small>Sales recorded</small><strong id="dSales">0</strong><div class="hint">Non-cancelled orders</div></div>
+<div class="card stat"><small>Expenses recorded</small><strong id="dExpenses">0</strong><div class="hint">Accounting entries</div></div>
+<div class="card stat"><small>Net balance</small><strong id="dNet">0</strong><div class="hint">Income minus expenses</div></div>
 </div>
-<div id="toast" class="toast" role="status"></div>
+<div class="grid two">
+<div class="card"><div class="cardhead"><h3>Recent orders</h3><button class="btn outline sm" onclick="showPage('orders')">View all</button></div><div id="dashOrders"></div></div>
+<div class="card"><div class="cardhead"><h3>Business snapshot</h3><span class="muted small" id="dashYear"></span></div><div id="snapshot"></div><div style="margin-top:15px"><div class="metric"><span class="muted">Products in catalogue</span><b id="dProducts">0</b></div><div class="metric"><span class="muted">Low stock items</span><b id="dLow">0</b></div><div class="metric"><span class="muted">Customers saved</span><b id="dCustomers">0</b></div></div></div>
+</div>
+</section>
+
+<section id="orders" class="view hidden">
+<div class="pagehead"><div><h1>Orders & Sales</h1><p>Record customer orders and track their progress.</p></div></div>
+<div class="card"><div class="cardhead"><h3>Add order</h3><span class="muted small">Date is saved with every record</span></div>
+<form id="orderForm" class="formgrid">
+<div><label>Order date *</label><input id="oDate" type="date" required></div><div><label>Customer name *</label><input id="oCustomer" required maxlength="80" placeholder="Customer name"></div>
+<div><label>Phone / contact</label><input id="oPhone" maxlength="40" placeholder="Optional"></div><div><label>Order reference</label><input id="oRef" maxlength="40" placeholder="Auto-generated if blank"></div>
+<div><label>Product / item *</label><input id="oItem" required maxlength="100" placeholder="Item name"></div><div><label>Quantity *</label><input id="oQty" type="number" min="1" step="1" value="1" required></div>
+<div><label>Total amount *</label><input id="oAmount" type="number" min="0" step=".01" required placeholder="0.00"></div><div><label>Payment status</label><select id="oPayment"><option>Unpaid</option><option>Part-paid</option><option>Paid</option></select></div>
+<div><label>Order status</label><select id="oStatus"><option>New</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Returned</option><option>Cancelled</option></select></div>
+<div><label>Payment received</label><input id="oReceived" type="number" min="0" step=".01" value="0"></div>
+<div class="field full"><label>Notes</label><textarea id="oNotes" rows="2" placeholder="Optional details"></textarea></div>
+<div class="field full"><button class="btn">Save order</button></div></form></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Order register</h3><input class="search" id="orderSearch" placeholder="Search customer, item, ref..."></div><div class="toolbar"><div class="field"><label>Year</label><select id="orderYear"></select></div><div class="field"><label>Status</label><select id="orderStatusFilter"><option value="">All statuses</option><option>New</option><option>Confirmed</option><option>Packed</option><option>Shipped</option><option>Delivered</option><option>Returned</option><option>Cancelled</option></select></div></div><div id="orderTable"></div></div>
+</section>
+
+<section id="products" class="view hidden">
+<div class="pagehead"><div><h1>Products & Stock</h1><p>Keep product prices, SKUs and stock quantities organised.</p></div></div>
+<div class="card"><h3 style="margin:0 0 13px">Add product</h3><form id="productForm" class="formgrid">
+<div><label>Product name *</label><input id="pName" required maxlength="100"></div><div><label>SKU / product code</label><input id="pSku" maxlength="50"></div>
+<div><label>Cost price</label><input id="pCost" type="number" min="0" step=".01" value="0"></div><div><label>Selling price *</label><input id="pPrice" type="number" min="0" step=".01" required></div>
+<div><label>Stock quantity</label><input id="pStock" type="number" min="0" step="1" value="0"></div><div><label>Low-stock alert at</label><input id="pAlert" type="number" min="0" step="1" value="5"></div>
+<div class="field full"><button class="btn">Save product</button></div></form></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Product catalogue</h3><input class="search" id="productSearch" placeholder="Search products..."></div><div id="productTable"></div></div>
+</section>
+
+<section id="accounting" class="view hidden">
+<div class="pagehead"><div><h1>Accounting</h1><p>Record income, expenses, money owed and business transactions.</p></div></div>
+<div class="notice">Use this register to keep your business history. It is a basic bookkeeping workspace, not a certified tax or statutory accounting system.</div>
+<div class="card"><h3 style="margin:0 0 13px">Add transaction</h3><form id="txForm" class="formgrid">
+<div><label>Date *</label><input id="tDate" type="date" required></div><div><label>Type *</label><select id="tType"><option>Income</option><option>Expense</option><option>Receivable</option><option>Payable</option></select></div>
+<div><label>Category *</label><input id="tCategory" required placeholder="e.g. rent, product sale, utility"></div><div><label>Amount *</label><input id="tAmount" type="number" min=".01" step=".01" required></div>
+<div><label>Party / person</label><input id="tParty" placeholder="Customer, supplier, etc."></div><div><label>Payment method</label><select id="tMethod"><option>Cash</option><option>Bank transfer</option><option>Card</option><option>Mobile wallet</option><option>Other</option></select></div>
+<div class="field full"><label>Description / reference</label><textarea id="tNote" rows="2"></textarea></div><div class="field full"><button class="btn">Save transaction</button></div></form></div>
+<div class="grid three" style="margin-top:14px"><div class="card stat"><small>Income</small><strong id="aIncome">0</strong></div><div class="card stat"><small>Expenses</small><strong id="aExpense">0</strong></div><div class="card stat"><small>Net</small><strong id="aNet">0</strong></div></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Transaction ledger</h3><input class="search" id="txSearch" placeholder="Search ledger..."></div><div class="toolbar"><div class="field"><label>Year</label><select id="txYear"></select></div><div class="field"><label>Type</label><select id="txTypeFilter"><option value="">All</option><option>Income</option><option>Expense</option><option>Receivable</option><option>Payable</option></select></div></div><div id="txTable"></div></div>
+</section>
+
+<section id="customers" class="view hidden">
+<div class="pagehead"><div><h1>Customers</h1><p>Keep customer contact details and purchase history.</p></div></div>
+<div class="card"><h3 style="margin:0 0 13px">Add customer</h3><form id="customerForm" class="formgrid"><div><label>Name *</label><input id="cName" required></div><div><label>Phone / WhatsApp</label><input id="cPhone"></div><div><label>Email</label><input id="cEmail" type="email"></div><div><label>City / country</label><input id="cLocation"></div><div class="field full"><label>Notes</label><textarea id="cNotes" rows="2"></textarea></div><div class="field full"><button class="btn">Save customer</button></div></form></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Customer directory</h3><input class="search" id="customerSearch" placeholder="Search customers..."></div><div id="customerTable"></div></div>
+</section>
+
+<section id="suppliers" class="view hidden">
+<div class="pagehead"><div><h1>Suppliers</h1><p>Track suppliers and their contact information.</p></div></div>
+<div class="card"><h3 style="margin:0 0 13px">Add supplier</h3><form id="supplierForm" class="formgrid"><div><label>Supplier / company *</label><input id="sName" required></div><div><label>Contact</label><input id="sContact"></div><div><label>Email</label><input id="sEmail" type="email"></div><div><label>Location</label><input id="sLocation"></div><div class="field full"><label>Notes</label><textarea id="sNotes" rows="2"></textarea></div><div class="field full"><button class="btn">Save supplier</button></div></form></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Supplier directory</h3><input class="search" id="supplierSearch" placeholder="Search suppliers..."></div><div id="supplierTable"></div></div>
+</section>
+
+<section id="employees" class="view hidden">
+<div class="pagehead"><div><h1>Employees</h1><p>Maintain a basic staff directory and role notes.</p></div></div>
+<div class="notice warning">This is a local staff register only. It does not create secure staff logins or enforce permissions yet.</div>
+<div class="card"><h3 style="margin:0 0 13px">Add employee</h3><form id="employeeForm" class="formgrid"><div><label>Name *</label><input id="eName" required></div><div><label>Role / job title</label><input id="eRole" placeholder="e.g. Sales assistant"></div><div><label>Contact</label><input id="eContact"></div><div><label>Start date</label><input id="eDate" type="date"></div><div><label>Status</label><select id="eStatus"><option>Active</option><option>Inactive</option></select></div><div><label>Notes</label><input id="eNotes"></div><div class="field full"><button class="btn">Save employee</button></div></form></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Staff register</h3><input class="search" id="employeeSearch" placeholder="Search employees..."></div><div id="employeeTable"></div></div>
+</section>
+
+<section id="reports" class="view hidden">
+<div class="pagehead"><div><h1>Reports & History</h1><p>Go back to any year and review your saved business records.</p></div><div class="yearbox"><label for="reportYear">Year</label><select id="reportYear"></select></div></div>
+<div class="notice">Records remain in the archive until you delete them. Changing the year filter does not delete or move anything.</div>
+<div class="grid stats"><div class="card stat"><small>Orders</small><strong id="rOrders">0</strong></div><div class="card stat"><small>Sales</small><strong id="rSales">0</strong></div><div class="card stat"><small>Income</small><strong id="rIncome">0</strong></div><div class="card stat"><small>Expenses</small><strong id="rExpense">0</strong></div></div>
+<div class="grid two"><div class="card"><h3 style="margin-bottom:12px">Yearly financial summary</h3><div id="yearSummary"></div></div><div class="card"><h3 style="margin-bottom:12px">Monthly order history</h3><div id="monthlyHistory"></div></div></div>
+<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Year-end archive</h3><span class="muted small">All years with records</span></div><div id="archiveTable"></div></div>
+</section>
+
+<section id="messages" class="view hidden">
+<div class="pagehead"><div><h1>Message Assistant</h1><p>Prepare reusable messages for WhatsApp and Instagram.</p></div></div>
+<div class="card"><div class="formgrid"><div><label>Message type</label><select id="msgType"><option value="confirm">Order confirmation</option><option value="payment">Payment reminder</option><option value="dispatch">Dispatch update</option><option value="delay">Delivery delay</option><option value="thanks">Thank you / feedback</option></select></div><div><label>Customer name</label><input id="msgCustomer" placeholder="Customer name"></div><div><label>Order reference</label><input id="msgRef" placeholder="Order number"></div><div><label>Business name</label><input id="msgBusiness" placeholder="Your business"></div><div class="field full"><label>Message preview</label><textarea id="msgOutput" rows="5"></textarea></div><div class="field full"><button type="button" class="btn" id="copyMsg">Copy message</button></div></div></div>
+</section>
+
+<section id="store" class="view hidden">
+<div class="pagehead"><div><h1>Online Store Builder</h1><p>Prepare your public shop details and product list.</p></div></div>
+<div class="notice warning">Storefront preview setup only. Public checkout, live hosting, payments and order syncing are not connected in this HTML prototype.</div>
+<div class="card"><h3 style="margin:0 0 13px">Store profile</h3><form id="storeForm" class="formgrid"><div><label>Store name</label><input id="stName" placeholder="Your business name"></div><div><label>Store tagline</label><input id="stTag" placeholder="What do you sell?"></div><div><label>Contact / WhatsApp</label><input id="stContact"></div><div><label>Currency label</label><input id="stCurrency" placeholder="e.g. PKR, USD"></div><div class="field full"><label>About your business</label><textarea id="stAbout" rows="3"></textarea></div><div class="field full"><button class="btn">Save store profile</button></div></form></div><div class="card" style="margin-top:14px"><h3 style="margin-bottom:10px">Store preview</h3><div id="storePreview" class="empty">Save your store profile to preview it here.</div></div>
+</section>
+
+<section id="settings" class="view hidden">
+<div class="pagehead"><div><h1>Data & Settings</h1><p>Protect your records with regular backups and exports.</p></div></div>
+<div class="notice warning"><b>Important limitation:</b> this version saves records in this browser on this device only. It is not yet a secure multi-user cloud service. Clearing browser data, losing the device or changing browsers can remove access to records. Export backups regularly and keep them somewhere safe.</div>
+<div class="grid two">
+<div class="card"><h3 style="margin:0 0 8px">Backup & restore</h3><p class="muted small">Download a full JSON backup, or restore one previously exported from Nuvora Market.</p><div class="row" style="flex-wrap:wrap;margin-top:14px"><button class="btn" id="backupBtn">Download full backup</button><label class="btn soft" style="margin:0;cursor:pointer">Restore backup<input type="file" id="restoreFile" accept=".json,application/json" hidden></label></div><p class="muted small" id="backupStatus"></p></div>
+<div class="card"><h3 style="margin:0 0 8px">Export records</h3><p class="muted small">Download spreadsheet-friendly CSV files for orders, accounting, products and customers.</p><div class="row" style="flex-wrap:wrap;margin-top:14px"><button class="btn soft" onclick="exportCSV('orders')">Orders CSV</button><button class="btn soft" onclick="exportCSV('transactions')">Ledger CSV</button><button class="btn soft" onclick="exportCSV('products')">Products CSV</button><button class="btn soft" onclick="exportCSV('customers')">Customers CSV</button></div></div>
+<div class="card"><h3 style="margin:0 0 8px">Business preferences</h3><form id="prefsForm"><div class="field"><label>Business name</label><input id="prefBusiness" placeholder="Your business name"></div><div class="field" style="margin-top:10px"><label>Currency symbol / code</label><input id="prefCurrency" placeholder="$ / PKR / £"></div><button class="btn" style="margin-top:12px">Save preferences</button></form></div>
+<div class="card"><h3 style="margin:0 0 8px">Local data status</h3><div class="metric"><span class="muted">Orders</span><b id="sOrders">0</b></div><div class="metric"><span class="muted">Transactions</span><b id="sTx">0</b></div><div class="metric"><span class="muted">Products</span><b id="sProducts">0</b></div><div class="metric"><span class="muted">Last saved</span><b id="sSaved">—</b></div></div>
+</div>
+<div class="card" style="margin-top:14px"><h3 style="margin:0 0 8px">Security and cloud roadmap</h3><p class="muted small">Before public launch, Nuvora Market still needs server-side authentication, secure password handling, per-business data isolation, role-based access controls, encrypted cloud database, automated backups, account recovery, data export/deletion controls, audit logs and independent security testing. Never put private API keys or database secrets in this public HTML file.</p></div>
+<div class="card" style="margin-top:14px;border-color:#f0d7da"><h3 style="margin:0 0 8px;color:var(--red)">Danger zone</h3><p class="muted small">This permanently clears records stored in this browser. Download a backup first.</p><button class="btn danger" id="clearData">Delete local workspace data</button></div>
+</section>
+<div class="footer">Nuvora Market · Built for growing businesses · Prototype</div>
+</main></div></div><div id="toast" class="toast" role="status"></div>
 <script>
 'use strict';
+const KEYS=['orders','products','transactions','customers','suppliers','employees','store','prefs'];
 const $=id=>document.getElementById(id);
-const load=k=>{try{return JSON.parse(localStorage.getItem('nuvora_'+k)||'[]')}catch(e){return[]}};
-const save=(k,v)=>{try{localStorage.setItem('nuvora_'+k,JSON.stringify(v));return true}catch(e){toast('Could not save data in this browser');return false}};
-let orders=load('orders'),products=load('products');
-const money=n=>'$'+Number(n||0).toFixed(2);
-function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
-function show(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));if(view==='dashboard')renderDashboard();if(view==='orders')renderOrders();if(view==='products')renderProducts()}
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+const today=()=>new Date().toISOString().slice(0,10);
+const load=k=>{try{return JSON.parse(localStorage.getItem('nuvora_'+k)|| (k==='store'||k==='prefs'?'{}':'[]'))}catch(e){return k==='store'||k==='prefs'?{}:[]}};
+let db={};KEYS.forEach(k=>db[k]=load(k));
+let currency=db.prefs.currency||'USD';
+function persist(k){try{localStorage.setItem('nuvora_'+k,JSON.stringify(db[k]));localStorage.setItem('nuvora_last_saved',new Date().toISOString());return true}catch(e){toast('Storage is full or unavailable. Export a backup.');return false}}
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';clearTimeout(window._toastTimer);window._toastTimer=setTimeout(()=>$('toast').style.display='none',2600)}
+function money(n){return (currency?currency+' ':'')+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function tableOrders(list,actions=true){return '<div class="tablewrap"><table><thead><tr><th>Customer</th><th>Item</th><th>Amount</th><th>Payment</th><th>Status</th>'+(actions?'<th>Action</th>':'')+'</tr></thead><tbody>'+list.map(o=>'<tr><td>'+esc(o.customer)+'</td><td>'+esc(o.item)+'</td><td>'+money(o.amount)+'</td><td>'+esc(o.payment)+'</td><td>'+esc(o.status)+'</td>'+(actions?'<td><select aria-label="Change order status" onchange="changeStatus('+o.id+',this.value)">'+['New','Confirmed','Shipped','Delivered','Cancelled'].map(s=>'<option '+(o.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button class="btn danger" style="margin-top:5px;padding:6px 9px" onclick="deleteOrder('+o.id+')">Delete</button></td>':'')+'</tr>').join('')+'</tbody></table></div>'}
-function renderDashboard(){$('mOrders').textContent=orders.length;$('mOpen').textContent=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;$('mSales').textContent=money(orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+Number(o.amount),0));$('mProducts').textContent=products.length;const recent=orders.slice(-5).reverse();$('recentOrders').innerHTML=recent.length?tableOrders(recent,false):'<div class="empty">No orders yet. Add your first order to get started.</div>'}
-function renderOrders(){const q=$('orderSearch').value.toLowerCase();const list=orders.filter(o=>(o.customer+' '+o.item+' '+o.reference).toLowerCase().includes(q)).slice().reverse();$('orderList').innerHTML=list.length?tableOrders(list):'<div class="empty">No matching orders yet.</div>'}
-$('orderForm').addEventListener('submit',e=>{e.preventDefault();orders.push({id:Date.now(),customer:$('customer').value.trim(),reference:$('reference').value.trim(),item:$('item').value.trim(),amount:Number($('amount').value),payment:$('payment').value,status:$('status').value});save('orders',orders);e.target.reset();renderOrders();renderDashboard();toast('Order saved on this device')});
-$('orderSearch').addEventListener('input',renderOrders);
-window.changeStatus=(id,s)=>{orders=orders.map(o=>o.id===id?{...o,status:s}:o);save('orders',orders);renderOrders();renderDashboard();toast('Order status updated')};
-window.deleteOrder=id=>{if(confirm('Delete this order from this browser?')){orders=orders.filter(o=>o.id!==id);save('orders',orders);renderOrders();renderDashboard();toast('Order deleted')}};
-$('productForm').addEventListener('submit',e=>{e.preventDefault();products.push({id:Date.now(),name:$('productName').value.trim(),sku:$('sku').value.trim(),price:Number($('productPrice').value),stock:Number($('stock').value)});save('products',products);e.target.reset();$('stock').value=0;renderProducts();renderDashboard();toast('Product saved on this device')});
-function renderProducts(){$('productList').innerHTML=products.length?'<div class="tablewrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody>'+products.map(p=>'<tr><td>'+esc(p.name)+'</td><td>'+esc(p.sku||'—')+'</td><td>'+money(p.price)+'</td><td>'+p.stock+'</td><td><button class="btn danger" style="padding:6px 9px" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No products yet. Add your first product above.</div>'}
-window.deleteProduct=id=>{if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);save('products',products);renderProducts();renderDashboard();toast('Product deleted')}};
-function calc(){let c=+$('cost').value||0,p=+$('pack').value||0,d=+$('delivery').value||0,s=+$('sell').value||0,t=c+p+d,profit=s-t;$('totalCost').textContent=money(t);$('profitValue').textContent=money(profit);$('profitValue').style.color=profit<0?'#b54755':'#16845b';$('marginValue').textContent=(s>0?(profit/s*100).toFixed(1):'0')+'%';$('breakEven').textContent=money(t)}
-['cost','pack','delivery','sell'].forEach(id=>$(id).addEventListener('input',calc));
-const templates={confirm:'Hello {name}, thank you for your order {order}! We have received it and will update you when it is ready. — {shop}',payment:'Hello {name}, a friendly reminder that payment for order {order} is still pending. Please contact us if you need help. — {shop}',dispatch:'Hello {name}, your order {order} has been dispatched. We will share any available tracking update with you. Thank you! — {shop}',delay:'Hello {name}, we are sorry that order {order} is taking longer than expected.\nThank you for your patience. Please message us if you need an update. — {shop}',feedback:'Hello {name}, we hope you are enjoying your order {order}. We would appreciate your feedback. Thank you for supporting {shop}!'};
-function makeMessage(){let t=templates[$('templateType').value];$('messageOutput').value=t.replaceAll('{name}',$('msgName').value||'there').replaceAll('{order}',$('msgOrder').value||'your order').replaceAll('{shop}',$('shopName').value||'our shop')}
-['templateType','msgName','msgOrder','shopName'].forEach(id=>$(id).addEventListener('input',makeMessage));
-$('copyMessage').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('messageOutput').value);toast('Message copied')}catch(e){$('messageOutput').select();toast('Select and copy the message')}});
-makeMessage();renderDashboard();renderOrders();renderProducts();calc();
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function showPage(p){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(p).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));if(p==='dashboard')renderDashboard();if(p==='orders')renderOrders();if(p==='products')renderProducts();if(p==='accounting')renderAccounting();if(p==='customers')renderCustomers();if(p==='suppliers')renderSuppliers();if(p==='employees')renderEmployees();if(p==='reports')renderReports();if(p==='store')renderStore();if(p==='settings')renderSettings();window.scrollTo(0,0)}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function yearOf(x){return Number((x.date||'').slice(0,4))||new Date().getFullYear()}
+function yearOptions(el,records){let years=new Set([new Date().getFullYear(),...records.map(yearOf)]);el.innerHTML=[...years].sort((a,b)=>b-a).map(y=>`<option>${y}</option>`).join('')}
+function table(headers,rows){if(!rows.length)return '<div class="empty">No records found for this selection.</div>';return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
+function deleteRecord(key,recordId){if(!confirm('Delete this record? This cannot be undone unless you have a backup.'))return;db[key]=db[key].filter(x=>x.id!==recordId);persist(key);refreshAll();toast('Record deleted')}
+function statusPill(s){let c=['Paid','Delivered','Active','Income'].includes(s)?'green':['Cancelled','Returned','Inactive','Expense'].includes(s)?'red':['Unpaid','New','Receivable','Payable'].includes(s)?'amber':'';return `<span class="pill ${c}">${esc(s)}</span>`}
+function renderDashboard(){let y=new Date().getFullYear(),orders=db.orders.filter(o=>yearOf(o)===y),tx=db.transactions.filter(t=>yearOf(t)===y),sales=orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+ +o.amount,0),inc=tx.filter(t=>t.type==='Income').reduce((a,t)=>a+ +t.amount,0),exp=tx.filter(t=>t.type==='Expense').reduce((a,t)=>a+ +t.amount,0);$('dOrders').textContent=orders.length;$('dSales').textContent=money(sales);$('dExpenses').textContent=money(exp);$('dNet').textContent=money(inc-exp);$('dProducts').textContent=db.products.length;$('dLow').textContent=db.products.filter(p=>+p.stock<=+p.alert).length;$('dCustomers').textContent=db.customers.length;$('dashYear').textContent=y;$('snapshot').innerHTML=`<div class="metric"><span class="muted">Income ledger</span><b>${money(inc)}</b></div><div class="metric"><span class="muted">Expense ledger</span><b>${money(exp)}</b></div><div class="metric"><span class="muted">Outstanding receivables</span><b>${money(tx.filter(t=>t.type==='Receivable').reduce((a,t)=>a+ +t.amount,0))}</b></div>`;let recent=db.orders.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);$('dashOrders').innerHTML=table(['Date','Customer','Item','Amount','Status'],recent.map(o=>`<tr><td>${esc(o.date)}</td><td>${esc(o.customer)}</td><td>${esc(o.item)}</td><td>${money(o.amount)}</td><td>${statusPill(o.status)}</td></tr>`))}
+$('oDate').value=today();$('tDate').value=today();
+$('orderForm').addEventListener('submit',e=>{e.preventDefault();let amount=+$('oAmount').value,received=+$('oReceived').value;if(received>amount){toast('Received amount cannot exceed order total');return}let o={id:id(),date:$('oDate').value,customer:$('oCustomer').value.trim(),phone:$('oPhone').value.trim(),reference:$('oRef').value.trim()||'ORD-'+Date.now().toString().slice(-6),item:$('oItem').value.trim(),qty:+$('oQty').value,amount,payment:$('oPayment').value,status:$('oStatus').value,received,notes:$('oNotes').value.trim()};db.orders.push(o);persist('orders');e.target.reset();$('oDate').value=today();$('oQty').value=1;$('oReceived').value=0;renderOrders();renderDashboard();toast('Order saved')});
+function renderOrders(){yearOptions($('orderYear'),db.orders);let y=+$('orderYear').value||new Date().getFullYear(),q=$('orderSearch').value.toLowerCase(),st=$('orderStatusFilter').value;let list=db.orders.filter(o=>yearOf(o)===y&&(!st||o.status===st)&&[o.customer,o.item,o.reference,o.phone].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('orderTable').innerHTML=table(['Date','Reference','Customer','Item','Qty','Total','Received','Payment','Status',''],list.map(o=>`<tr><td>${esc(o.date)}</td><td>${esc(o.reference)}</td><td>${esc(o.customer)}</td><td>${esc(o.item)}</td><td>${o.qty}</td><td>${money(o.amount)}</td><td>${money(o.received)}</td><td>${statusPill(o.payment)}</td><td><select onchange="updateOrder('${o.id}','status',this.value)">${['New','Confirmed','Packed','Shipped','Delivered','Returned','Cancelled'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td><td><button class="btn danger sm" onclick="deleteRecord('orders','${o.id}')">Delete</button></td></tr>`))}
+window.updateOrder=(rid,k,v)=>{let o=db.orders.find(x=>x.id===rid);if(o){o[k]=v;persist('orders');renderOrders();renderDashboard();toast('Order updated')}};
+['orderSearch','orderYear','orderStatusFilter'].forEach(id=>$(id).addEventListener(id==='orderSearch'?'input':'change',renderOrders));
+$('productForm').addEventListener('submit',e=>{e.preventDefault();db.products.push({id:id(),name:$('pName').value.trim(),sku:$('pSku').value.trim(),cost:+$('pCost').value,price:+$('pPrice').value,stock:+$('pStock').value,alert:+$('pAlert').value});persist('products');e.target.reset();$('pCost').value=0;$('pStock').value=0;$('pAlert').value=5;renderProducts();renderDashboard();toast('Product saved')});
+function renderProducts(){let q=$('productSearch').value.toLowerCase(),list=db.products.filter(p=>(p.name+' '+p.sku).toLowerCase().includes(q));$('productTable').innerHTML=table(['Product','SKU','Cost','Price','Stock','Stock alert',''],list.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.sku||'—')}</td><td>${money(p.cost)}</td><td>${money(p.price)}</td><td>${+p.stock<=+p.alert?statusPill('Low stock'):p.stock}</td><td>${p.alert}</td><td><button class="btn outline sm" onclick="adjustStock('${p.id}')">Adjust</button> <button class="btn danger sm" onclick="deleteRecord('products','${p.id}')">Delete</button></td></tr>`))}
+window.adjustStock=rid=>{let p=db.products.find(x=>x.id===rid);if(!p)return;let v=prompt('Enter new stock quantity:',p.stock);if(v===null)return;if(!Number.isInteger(+v)||+v<0){toast('Enter a valid whole number');return}p.stock=+v;persist('products');renderProducts();renderDashboard();toast('Stock updated')};
+$('productSearch').addEventListener('input',renderProducts);
+$('txForm').addEventListener('submit',e=>{e.preventDefault();db.transactions.push({id:id(),date:$('tDate').value,type:$('tType').value,category:$('tCategory').value.trim(),amount:+$('tAmount').value,party:$('tParty').value.trim(),method:$('tMethod').value,note:$('tNote').value.trim()});persist('transactions');e.target.reset();$('tDate').value=today();renderAccounting();renderDashboard();toast('Transaction saved')});
+function renderAccounting(){yearOptions($('txYear'),db.transactions);let y=+$('txYear').value||new Date().getFullYear(),q=$('txSearch').value.toLowerCase(),type=$('txTypeFilter').value,list=db.transactions.filter(t=>yearOf(t)===y&&(!type||t.type===type)&&[t.category,t.party,t.note,t.method].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));let inc=list.filter(t=>t.type==='Income').reduce((a,t)=>a+ +t.amount,0),exp=list.filter(t=>t.type==='Expense').reduce((a,t)=>a+ +t.amount,0);$('aIncome').textContent=money(inc);$('aExpense').textContent=money(exp);$('aNet').textContent=money(inc-exp);$('txTable').innerHTML=table(['Date','Type','Category','Party','Method','Amount','Description',''],list.map(t=>`<tr><td>${esc(t.date)}</td><td>${statusPill(t.type)}</td><td>${esc(t.category)}</td><td>${esc(t.party)}</td><td>${esc(t.method)}</td><td>${money(t.amount)}</td><td>${esc(t.note)}</td><td><button class="btn danger sm" onclick="deleteRecord('transactions','${t.id}')">Delete</button></td></tr>`))}
+['txSearch','txYear','txTypeFilter'].forEach(id=>$(id).addEventListener(id==='txSearch'?'input':'change',renderAccounting));
+function bindDirectory(form,key,fields,render){$(form).addEventListener('submit',e=>{e.preventDefault();let obj={id:id()};fields.forEach(([k,input])=>obj[k]=$(input).value.trim());db[key].push(obj);persist(key);e.target.reset();render();toast('Saved successfully')})}
+function directoryTable(target,key,search,cols){let q=$(search).value.toLowerCase(),list=db[key].filter(x=>Object.values(x).join(' ').toLowerCase().includes(q));$(target).innerHTML=table([...cols.map(c=>c[1]),''],list.map(x=>`<tr>${cols.map(c=>`<td>${esc(x[c[0]]||'—')}</td>`).join('')}<td><button class="btn danger sm" onclick="deleteRecord('${key}','${x.id}')">Delete</button></td></tr>`))}
+bindDirectory('customerForm','customers',[['name','cName'],['phone','cPhone'],['email','cEmail'],['location','cLocation'],['notes','cNotes']],renderCustomers);
+function renderCustomers(){directoryTable('customerTable','customers','customerSearch',[['name','Name'],['phone','Phone'],['email','Email'],['location','Location'],['notes','Notes']])}
+$('customerSearch').addEventListener('input',renderCustomers);
+bindDirectory('supplierForm','suppliers',[['name','sName'],['contact','sContact'],['email','sEmail'],['location','sLocation'],['notes','sNotes']],renderSuppliers);
+function renderSuppliers(){directoryTable('supplierTable','suppliers','supplierSearch',[['name','Supplier'],['contact','Contact'],['email','Email'],['location','Location'],['notes','Notes']])}
+$('supplierSearch').addEventListener('input',renderSuppliers);
+bindDirectory('employeeForm','employees',[['name','eName'],['role','eRole'],['contact','eContact'],['date','eDate'],['status','eStatus'],['notes','eNotes']],renderEmployees);
+function renderEmployees(){directoryTable('employeeTable','employees','employeeSearch',[['name','Name'],['role','Role'],['contact','Contact'],['date','Start date'],['status','Status'],['notes','Notes']])}
+$('employeeSearch').addEventListener('input',renderEmployees);
+function renderReports(){yearOptions($('reportYear'),[...db.orders,...db.transactions]);let y=+$('reportYear').value||new Date().getFullYear(),orders=db.orders.filter(x=>yearOf(x)===y),tx=db.transactions.filter(x=>yearOf(x)===y),sales=orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+ +o.amount,0),inc=tx.filter(t=>t.type==='Income').reduce((a,t)=>a+ +t.amount,0),exp=tx.filter(t=>t.type==='Expense').reduce((a,t)=>a+ +t.amount,0);$('rOrders').textContent=orders.length;$('rSales').textContent=money(sales);$('rIncome').textContent=money(inc);$('rExpense').textContent=money(exp);$('yearSummary').innerHTML=`<div class="metric"><span>Order sales (not cancelled)</span><b>${money(sales)}</b></div><div class="metric"><span>Other recorded income</span><b>${money(inc)}</b></div><div class="metric"><span>Recorded expenses</span><b>${money(exp)}</b></div><div class="metric"><span><b>Ledger net</b></span><b class="${inc-exp>=0?'positive':'negative'}">${money(inc-exp)}</b></div><p class="muted small">Order sales are shown separately; do not add them to ledger income again if you have also entered those sales as income.</p>`;let months=Array.from({length:12},(_,i)=>{let n=i+1,c=orders.filter(o=>+o.date.slice(5,7)===n).length;return `<div class="metric"><span>${new Date(y,i,1).toLocaleString(undefined,{month:'long'})}</span><b>${c} orders</b></div>`}).join('');$('monthlyHistory').innerHTML=months;let years=[...new Set([...db.orders,...db.transactions].map(yearOf))].sort((a,b)=>b-a);$('archiveTable').innerHTML=table(['Year','Orders','Sales','Transactions','Income','Expenses',''],years.map(yr=>{let os=db.orders.filter(o=>yearOf(o)===yr),ts=db.transactions.filter(t=>yearOf(t)===yr);return `<tr><td><b>${yr}</b></td><td>${os.length}</td><td>${money(os.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+ +o.amount,0))}</td><td>${ts.length}</td><td>${money(ts.filter(t=>t.type==='Income').reduce((a,t)=>a+ +t.amount,0))}</td><td>${money(ts.filter(t=>t.type==='Expense').reduce((a,t)=>a+ +t.amount,0))}</td><td><button class="btn outline sm" onclick="selectReportYear(${yr})">Open year</button></td></tr>`}))}
+window.selectReportYear=y=>{$('reportYear').value=y;renderReports()};$('reportYear').addEventListener('change',renderReports);
+const msgTemplates={confirm:'Hello {name}, thank you for your order {ref}. We have received it and will keep you updated. — {business}',payment:'Hello {name}, this is a friendly reminder about the pending payment for order {ref}. Please contact us if you need any help. — {business}',dispatch:'Hello {name}, your order {ref} has been dispatched. Thank you for shopping with {business}!',delay:'Hello {name}, we are sorry that order {ref} is taking longer than expected. Thank you for your patience. — {business}',thanks:'Hello {name}, thank you for choosing {business}! We would love to hear your feedback about order {ref}.'};
+function makeMsg(){$('msgOutput').value=msgTemplates[$('msgType').value].replaceAll('{name}',$('msgCustomer').value||'there').replaceAll('{ref}',$('msgRef').value||'your order').replaceAll('{business}',$('msgBusiness').value||'our business')}
+['msgType','msgCustomer','msgRef','msgBusiness'].forEach(k=>$(k).addEventListener('input',makeMsg));makeMsg();$('copyMsg').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('msgOutput').value);toast('Message copied')}catch(e){$('msgOutput').select();toast('Select and copy the message')}});
+$('storeForm').addEventListener('submit',e=>{e.preventDefault();db.store={name:$('stName').value.trim(),tag:$('stTag').value.trim(),contact:$('stContact').value.trim(),currency:$('stCurrency').value.trim(),about:$('stAbout').value.trim()};persist('store');renderStore();toast('Store profile saved')});
+function renderStore(){let s=db.store;$('stName').value=s.name||'';$('stTag').value=s.tag||'';$('stContact').value=s.contact||'';$('stCurrency').value=s.currency||'';$('stAbout').value=s.about||'';$('storePreview').innerHTML=s.name?`<div style="text-align:left"><h2 style="margin:0">${esc(s.name)}</h2><p class="muted">${esc(s.tag)}</p><p>${esc(s.about)}</p><p class="small">Contact: ${esc(s.contact||'Not added')}</p><hr style="border:0;border-top:1px solid var(--line)"><b>Products</b>${db.products.length?db.products.map(p=>`<div class="metric"><span>${esc(p.name)}</span><b>${money(p.price)}</b></div>`).join(''):'<p class="muted">Add products to display them in this preview.</p>'}</div>`:'Save your store profile to preview it here.'}
+$('prefsForm').addEventListener('submit',e=>{e.preventDefault();db.prefs={business:$('prefBusiness').value.trim(),currency:$('prefCurrency').value.trim()||'USD'};currency=db.prefs.currency;persist('prefs');refreshAll();toast('Preferences saved')});
+function renderSettings(){$('prefBusiness').value=db.prefs.business||'';$('prefCurrency').value=db.prefs.currency||'USD';$('sOrders').textContent=db.orders.length;$('sTx').textContent=db.transactions.length;$('sProducts').textContent=db.products.length;$('sSaved').textContent=localStorage.getItem('nuvora_last_saved')?new Date(localStorage.getItem('nuvora_last_saved')).toLocaleString():'Not saved yet'}
+function refreshAll(){renderDashboard();renderOrders();renderProducts();renderAccounting();renderCustomers();renderSuppliers();renderEmployees();renderReports();renderStore();renderSettings()}
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+window.exportCSV=key=>{let rows=db[key]||[];if(!rows.length){toast('No records to export');return}let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],csv=[cols.map(csvCell).join(','),...rows.map(x=>cols.map(c=>csvCell(x[c])).join(','))].join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'nuvora-'+key+'-'+new Date().toISOString().slice(0,10)+'.csv')};
+function download(blob,name){let a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$('backupBtn').addEventListener('click',()=>{let backup={app:'Nuvora Market',version:2,exportedAt:new Date().toISOString(),data:db};download(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),'nuvora-market-backup-'+today()+'.json');$('backupStatus').textContent='Backup downloaded. Keep a copy in a safe location.'});
+$('restoreFile').addEventListener('change',async e=>{let f=e.target.files[0];if(!f)return;try{let parsed=JSON.parse(await f.text()),data=parsed.data||parsed;if(!KEYS.every(k=>Object.prototype.hasOwnProperty.call(data,k)))throw Error('This file does not contain a complete Nuvora backup.');if(!confirm('Restore this backup? Current local records will be replaced. Download a backup of current data first.'))return;KEYS.forEach(k=>{db[k]=data[k];persist(k)});currency=db.prefs.currency||'USD';refreshAll();$('backupStatus').textContent='Backup restored on this device.';toast('Backup restored')}catch(err){toast(err.message||'Could not read backup')}e.target.value=''});
+$('clearData').addEventListener('click',()=>{if(!confirm('Permanently delete all Nuvora records stored in this browser? Download a backup first.'))return;KEYS.forEach(k=>localStorage.removeItem('nuvora_'+k));localStorage.removeItem('nuvora_last_saved');KEYS.forEach(k=>db[k]=k==='store'||k==='prefs'?{}:[]);currency='USD';refreshAll();toast('Local workspace cleared')});
+function init(){yearOptions($('orderYear'),db.orders);yearOptions($('txYear'),db.transactions);yearOptions($('reportYear'),[...db.orders,...db.transactions]);refreshAll();$('oDate').value=today();$('tDate').value=today()}
+init();
 </script>
-</body>
-</html>
+</body></html>
