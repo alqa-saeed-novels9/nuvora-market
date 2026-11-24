@@ -1,70 +1,187 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Simple digital tools for WhatsApp and Instagram sellers. Organize orders, customers, pricing and everyday shop tasks.">
-<meta name="theme-color" content="#111827">
-<title>Nuvora Market — Simple tools for small sellers</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d1c">
+<title>Nuvora Market — Seller Workspace</title>
 <style>
-:root{--bg:#0d1422;--panel:#151f32;--ink:#f5f4fa;--muted:#b8bfd0;--purple:#a78bfa;--line:#2c3850;--cream:#f4f0e8}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-a{color:inherit}.wrap{max-width:1080px;margin:auto;padding:0 20px}
-header{border-bottom:1px solid var(--line);position:sticky;top:0;background:#0d1422ee;backdrop-filter:blur(10px);z-index:3}
-.nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.logo{font-weight:800;letter-spacing:.08em}.logo span{color:var(--purple)}
-.nav a{text-decoration:none;color:var(--muted);font-size:14px;margin-left:16px}
-.hero{padding:72px 0 54px;display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:center}
-.eyebrow{color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:12px}
-h1{font-size:clamp(38px,6vw,64px);line-height:1.05;letter-spacing:-.04em;margin:14px 0}
-.lead{color:var(--muted);font-size:18px;max-width:600px}
-.btn{display:inline-block;text-decoration:none;background:var(--purple);color:#171226;font-weight:800;padding:13px 19px;border-radius:12px;margin-top:16px}
-.preview{background:linear-gradient(145deg,#222d45,#171d31);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 70px #0005}
-.preview h3{margin:0 0 14px}.mockrow{background:#101827;border:1px solid var(--line);border-radius:12px;padding:13px;margin:9px 0;color:var(--muted);font-size:14px}
-.pill{display:inline-block;color:#d9d0ff;background:#342957;padding:4px 9px;border-radius:99px;font-size:11px}
-section{padding:45px 0}.section-title{font-size:30px;margin:0 0 8px}.muted{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
-.card .num{color:var(--purple);font-weight:800;font-size:13px}.card h3{margin:8px 0}.card p{color:var(--muted);font-size:14px;margin:0}
-.product{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:26px;border-radius:22px}
-.cover{background:var(--cream);color:#1c2740;border-radius:16px;min-height:270px;padding:28px;display:flex;flex-direction:column;justify-content:center;text-align:center}
-.cover .brand{letter-spacing:.2em;font-weight:800;font-size:12px}.cover h3{font-size:30px;line-height:1.1;margin:18px 0}.cover p{font-size:13px;color:#5c6474}
-ul{padding-left:20px;color:var(--muted)}li{margin:7px 0}
-.notice{border:1px solid #66558d;background:#211d35;padding:16px;border-radius:14px;color:#e6e0f7;font-size:14px}
-footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
-@media(max-width:760px){.hero,.product{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nav a{margin-left:9px;font-size:12px}}
+:root{--bg:#080c19;--panel:#11182b;--panel2:#151f36;--line:#26334f;--text:#f4f6ff;--muted:#a5afc7;--purple:#8b5cf6;--cyan:#43d6d0;--green:#42d392;--red:#ff727f;--amber:#f7c66b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#29205a 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.wrap{max-width:1180px;margin:auto;padding:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--purple),#4231a5);display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:0 8px 30px #6844d855}
+.brand h1{font-size:19px;margin:0;letter-spacing:.2px}.brand small{display:block;color:var(--muted);font-size:11px}
+.pill{border:1px solid #3a4770;color:#c8c3ff;padding:6px 10px;border-radius:99px;font-size:11px}
+.hero{padding:24px;border:1px solid #34315d;background:linear-gradient(115deg,#211c46,#121a31 65%,#102c3a);border-radius:22px;margin-bottom:18px}
+.hero h2{font-size:clamp(23px,5vw,34px);line-height:1.15;margin:0 0 8px}.hero p{color:#c1c9df;margin:0;max-width:660px}
+.notice{margin-top:13px;color:#f4d99d;font-size:12px}
+.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 13px;margin-bottom:12px}
+.tab{white-space:nowrap;background:#11182b;color:#c4cce0;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.tab.active{background:#30245c;border-color:#8b5cf6;color:white}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.card,.panel{background:linear-gradient(180deg,#141d32,#101728);border:1px solid var(--line);border-radius:17px;padding:16px}
+.metric small{color:var(--muted)}.metric strong{display:block;font-size:26px;margin-top:5px}.metric span{font-size:11px;color:#aeb9d0}
+.panel{margin-bottom:14px}.panel h3{margin:0 0 12px;font-size:17px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.btn{background:linear-gradient(120deg,#8b5cf6,#5b49c8);color:white;border:0;border-radius:11px;padding:10px 14px;font-weight:650}
+.btn.secondary{background:#202b45;border:1px solid #3a4968}.btn.danger{background:#512532;border:1px solid #8c3c51}
+input,select,textarea{background:#0b1222;border:1px solid #33415f;border-radius:10px;color:white;padding:11px;width:100%;min-width:0}
+label{display:block;color:#b9c4dc;font-size:12px;margin:0 0 5px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field.full{grid-column:1/-1}
+.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #26334b;font-size:13px}th{color:#aab6d0;font-weight:600}
+.badge{display:inline-block;padding:4px 8px;border-radius:99px;font-size:11px;background:#263450;color:#d9e3ff}.badge.green{background:#173e36;color:#83edc2}.badge.amber{background:#49391c;color:#f7d78d}.badge.red{background:#49232e;color:#ff9daa}
+.muted{color:var(--muted)}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #3b4966;border-radius:13px}
+.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.quick button{text-align:left;background:#17213a;border:1px solid #34425f;border-radius:13px;color:white;padding:14px}.quick b{display:block;margin-bottom:3px}.quick span{color:#aab6d0;font-size:12px}
+.hidden{display:none!important}.footer{text-align:center;color:#7f8ba7;font-size:11px;padding:18px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#233b36;border:1px solid #39866e;color:#c8ffe9;padding:10px 15px;border-radius:12px;display:none;z-index:9}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{grid-template-columns:1fr}.wrap{padding:13px}.hero{padding:19px}.top{align-items:flex-start}}
+@media(max-width:420px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.metric strong{font-size:22px}}
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><div class="logo">NUVORA <span>MARKET</span></div><nav><a href="#tools">Tools</a><a href="#kit">Starter Kit</a><a href="#about">About</a></nav></div></header>
-<main class="wrap">
+<div class="wrap">
+<header class="top">
+ <div class="brand"><div class="logo">N</div><div><h1>Nuvora Market</h1><small>SELLER WORKSPACE</small></div></div>
+ <span class="pill">STAGE 1 · STARTER MVP</span>
+</header>
 <section class="hero">
-<div><div class="eyebrow">Digital tools for independent sellers</div>
-<h1>Run your small shop with more clarity.</h1>
-<p class="lead">Simple, practical resources for people selling through WhatsApp, Instagram and social media — from the first customer message to the delivered order.</p>
-<a class="btn" href="#kit">Explore the starter kit</a></div>
-<div class="preview"><span class="pill">SELLER WORKSPACE · CONCEPT</span><h3>Your shop, more organized</h3>
-<div class="mockrow">01 &nbsp; New order received <span style="float:right;color:#a78bfa">●</span></div>
-<div class="mockrow">02 &nbsp; Payment status updated <span style="float:right;color:#a78bfa">●</span></div>
-<div class="mockrow">03 &nbsp; Package dispatched <span style="float:right;color:#a78bfa">●</span></div>
-<div class="mockrow">04 &nbsp; Customer feedback requested <span style="float:right;color:#a78bfa">●</span></div>
-<p class="muted" style="font-size:12px;margin-bottom:0">A visual preview. No customer data is collected on this demo page.</p></div>
+ <h2>Run your shop.<br><span style="color:#bba7ff">With more clarity.</span></h2>
+ <p>A simple workspace for independent WhatsApp and Instagram sellers to track orders, products and business numbers.</p>
+ <div class="notice">Preview version: records are saved only in this browser on this device. Do not enter sensitive customer or payment details.</div>
 </section>
-<section id="tools"><div class="eyebrow">What we make</div><h2 class="section-title">Small tools. Everyday usefulness.</h2><p class="muted">Designed for solo sellers, home businesses and tiny online shops.</p>
-<div class="grid">
-<div class="card"><div class="num">01 / ORDERS</div><h3>Capture every order</h3><p>Keep product choices, quantities, customer notes and order details together.</p></div>
-<div class="card"><div class="num">02 / CUSTOMERS</div><h3>Reply with confidence</h3><p>Use clear message templates for enquiries, confirmations and delivery updates.</p></div>
-<div class="card"><div class="num">03 / MONEY</div><h3>Understand your numbers</h3><p>Record prices and direct costs so you can estimate what is left after each sale.</p></div>
-</div></section>
-<section id="kit"><div class="eyebrow">First digital product · Version 1.0</div><h2 class="section-title">Online Seller Starter Kit</h2>
-<div class="product"><div class="cover"><div class="brand">NUVORA MARKET</div><h3>ONLINE SELLER<br>STARTER KIT</h3><p>PRODUCT LISTING · ORDER FORM · TRACKER<br>PRICING · CUSTOMER MESSAGES</p></div>
-<div><span class="pill">PDF WORKBOOK</span><h3>Get your shop organized</h3><p class="muted">A printable toolkit for WhatsApp and Instagram sellers. Customize it for your shop, products and currency.</p>
-<ul><li>Product listing sheet</li><li>Customer order form and order tracker</li><li>Pricing and profit check</li><li>Ready-to-personalize customer messages</li><li>Delivery and returns policy planner</li><li>Weekly shop review</li></ul>
-<p class="notice"><b>Launch preview:</b> We are testing the first version. Checkout and payment are not enabled yet. Join the first-user list by contacting us once the store contact details are added.</p>
-<a class="btn" href="Nuvora_Online_Seller_Starter_Kit.pdf" download>Download the starter kit PDF</a>
-</div></div></section>
-<section id="about"><div class="eyebrow">Our promise</div><h2 class="section-title">Built for the people behind small shops.</h2><p class="lead">Nuvora Market aims to make everyday selling tasks simpler with practical, easy-to-use digital resources. We are starting small, listening to sellers and improving one useful product at a time.</p>
-<p class="notice">This is an early website draft. Before publishing, add a real support email or contact link, review product content, confirm licensing for every asset, and set up a secure payment and delivery process. Never publish private customer information.</p></section>
+<nav class="tabs" aria-label="Main navigation">
+ <button class="tab active" data-view="dashboard">Overview</button>
+ <button class="tab" data-view="orders">Orders</button>
+ <button class="tab" data-view="products">Products & Stock</button>
+ <button class="tab" data-view="profit">Profit Calculator</button>
+ <button class="tab" data-view="messages">Message Templates</button>
+</nav>
+
+<main>
+<section id="dashboard" class="view">
+ <div class="grid">
+  <div class="card metric"><small>Total orders</small><strong id="mOrders">0</strong><span>All saved orders</span></div>
+  <div class="card metric"><small>Open orders</small><strong id="mOpen">0</strong><span>Not yet delivered</span></div>
+  <div class="card metric"><small>Sales recorded</small><strong id="mSales">$0.00</strong><span>Based on saved orders</span></div>
+  <div class="card metric"><small>Products</small><strong id="mProducts">0</strong><span>Items in your catalogue</span></div>
+ </div>
+ <div class="panel">
+  <div class="row"><h3>Quick actions</h3><span class="muted" style="font-size:12px">Your daily shop tools</span></div>
+  <div class="quick">
+   <button data-go="orders"><b>＋ Add an order</b><span>Record a customer purchase</span></button>
+   <button data-go="products"><b>＋ Add a product</b><span>Track a product and stock</span></button>
+   <button data-go="profit"><b>Calculate profit</b><span>Check costs and selling price</span></button>
+  </div>
+ </div>
+ <div class="panel"><h3>Recent orders</h3><div id="recentOrders" class="empty">No orders yet. Add your first order to get started.</div></div>
+</section>
+
+<section id="orders" class="view hidden">
+ <div class="panel">
+  <div class="row"><h3>Add a new order</h3><span class="muted" style="font-size:12px">Keep customer details minimal</span></div>
+  <form id="orderForm" class="formgrid">
+   <div class="field"><label>Customer name *</label><input id="customer" required maxlength="60" placeholder="Customer name"></div>
+   <div class="field"><label>Order reference</label><input id="reference" maxlength="30" placeholder="e.g. ORD-001"></div>
+   <div class="field"><label>Product / item *</label><input id="item" required maxlength="80" placeholder="Product name"></div>
+   <div class="field"><label>Order amount *</label><input id="amount" type="number" min="0" step="0.01" required placeholder="0.00"></div>
+   <div class="field"><label>Payment status</label><select id="payment"><option>Unpaid</option><option>Part-paid</option><option>Paid</option></select></div>
+   <div class="field"><label>Order status</label><select id="status"><option>New</option><option>Confirmed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
+   <div class="field full"><button class="btn" type="submit">Save order</button></div>
+  </form>
+ </div>
+ <div class="panel"><div class="row"><h3>Order list</h3><input id="orderSearch" style="max-width:220px" placeholder="Search orders"></div><div id="orderList"></div></div>
+</section>
+
+<section id="products" class="view hidden">
+ <div class="panel">
+  <h3>Add a product</h3>
+  <form id="productForm" class="formgrid">
+   <div class="field"><label>Product name *</label><input id="productName" required maxlength="80" placeholder="e.g. Cotton scarf"></div>
+   <div class="field"><label>SKU / code</label><input id="sku" maxlength="30" placeholder="Optional"></div>
+   <div class="field"><label>Selling price *</label><input id="productPrice" type="number" min="0" step="0.01" required placeholder="0.00"></div>
+   <div class="field"><label>Stock quantity</label><input id="stock" type="number" min="0" step="1" value="0"></div>
+   <div class="field full"><button class="btn" type="submit">Save product</button></div>
+  </form>
+ </div>
+ <div class="panel"><h3>Product catalogue</h3><div id="productList"></div></div>
+</section>
+
+<section id="profit" class="view hidden">
+ <div class="panel">
+  <h3>Quick profit calculator</h3>
+  <p class="muted" style="font-size:13px;margin-top:-5px">Enter one item's costs and selling price. This is an estimate before taxes or other fees not entered here.</p>
+  <div class="formgrid">
+   <div class="field"><label>Product cost</label><input id="cost" type="number" min="0" step="0.01" value="0"></div>
+   <div class="field"><label>Packaging cost</label><input id="pack" type="number" min="0" step="0.01" value="0"></div>
+   <div class="field"><label>Delivery / other cost paid by seller</label><input id="delivery" type="number" min="0" step="0.01" value="0"></div>
+   <div class="field"><label>Selling price</label><input id="sell" type="number" min="0" step="0.01" value="0"></div>
+  </div>
+  <div class="grid" style="margin-top:15px">
+   <div class="card metric"><small>Total entered cost</small><strong id="totalCost">$0.00</strong></div>
+   <div class="card metric"><small>Estimated profit</small><strong id="profitValue">$0.00</strong></div>
+   <div class="card metric"><small>Profit margin</small><strong id="marginValue">0%</strong></div>
+   <div class="card metric"><small>Break-even price</small><strong id="breakEven">$0.00</strong></div>
+  </div>
+  <p class="muted" style="font-size:11px">Currency display is USD in this starter preview. A later settings step will let each seller choose their currency.</p>
+ </div>
+</section>
+
+<section id="messages" class="view hidden">
+ <div class="panel">
+  <h3>Customer message templates</h3>
+  <p class="muted" style="font-size:13px">Choose a template, personalise it and copy the message into WhatsApp or Instagram yourself.</p>
+  <div class="formgrid">
+   <div class="field"><label>Message type</label><select id="templateType"><option value="confirm">Order confirmation</option><option value="payment">Payment reminder</option><option value="dispatch">Dispatch update</option><option value="delay">Delivery delay</option><option value="feedback">Feedback request</option></select></div>
+   <div class="field"><label>Customer first name</label><input id="msgName" placeholder="Customer name"></div>
+   <div class="field"><label>Order reference</label><input id="msgOrder" placeholder="Order number"></div>
+   <div class="field"><label>Shop name</label><input id="shopName" placeholder="Your shop name"></div>
+   <div class="field full"><label>Your message</label><textarea id="messageOutput" rows="5"></textarea></div>
+   <div class="field full"><button class="btn" id="copyMessage" type="button">Copy message</button></div>
+  </div>
+ </div>
+</section>
 </main>
-<footer><div class="wrap">© <span id="year"></span> Nuvora Market · Early website preview · <span>Digital resources for small sellers</span></div></footer>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</body></html>
+<div class="footer">Nuvora Market · Built for independent sellers · Stage 1 preview</div>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script>
+const $=id=>document.getElementById(id);
+const load=(k)=>{try{return JSON.parse(localStorage.getItem('nuvora_'+k)||'[]')}catch(e){return[]}};
+const save=(k,v)=>localStorage.setItem('nuvora_'+k,JSON.stringify(v));
+let orders=load('orders'), products=load('products');
+const money=n=>'$'+Number(n||0).toFixed(2);
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
+function show(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));if(view==='dashboard')renderDashboard()}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+function renderDashboard(){
+ $('mOrders').textContent=orders.length;
+ $('mOpen').textContent=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;
+ $('mSales').textContent=money(orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+Number(o.amount),0));
+ $('mProducts').textContent=products.length;
+ const recent=orders.slice(-5).reverse();
+ $('recentOrders').innerHTML=recent.length?tableOrders(recent,false):'<div class="empty">No orders yet. Add your first order to get started.</div>';
+}
+function tableOrders(list,actions=true){
+ return '<div class="tablewrap"><table><thead><tr><th>Customer</th><th>Item</th><th>Amount</th><th>Payment</th><th>Status</th>'+(actions?'<th>Action</th>':'')+'</tr></thead><tbody>'+list.map(o=>'<tr><td>'+esc(o.customer)+'</td><td>'+esc(o.item)+'</td><td>'+money(o.amount)+'</td><td>'+esc(o.payment)+'</td><td><span class="badge '+(o.status==='Delivered'?'green':o.status==='Cancelled'?'red':'amber')+'">'+esc(o.status)+'</span></td>'+(actions?'<td><select aria-label="Change order status" onchange="changeStatus('+o.id+',this.value)">'+['New','Confirmed','Shipped','Delivered','Cancelled'].map(s=>'<option '+(o.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button class="btn danger" style="margin-top:5px;padding:6px 9px" onclick="deleteOrder('+o.id+')">Delete</button></td>':'')+'</tr>').join('')+'</tbody></table></div>';
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('orderForm').addEventListener('submit',e=>{e.preventDefault();orders.push({id:Date.now(),customer:$('customer').value.trim(),reference:$('reference').value.trim(),item:$('item').value.trim(),amount:Number($('amount').value),payment:$('payment').value,status:$('status').value});save('orders',orders);e.target.reset();renderOrders();renderDashboard();toast('Order saved on this device')});
+function renderOrders(){const q=$('orderSearch').value.toLowerCase();const list=orders.filter(o=>(o.customer+' '+o.item+' '+o.reference).toLowerCase().includes(q)).slice().reverse();$('orderList').innerHTML=list.length?tableOrders(list):'<div class="empty">No matching orders yet.</div>'}
+$('orderSearch').addEventListener('input',renderOrders);
+window.changeStatus=(id,s)=>{orders=orders.map(o=>o.id===id?{...o,status:s}:o);save('orders',orders);renderOrders();renderDashboard();toast('Order status updated')};
+window.deleteOrder=id=>{if(confirm('Delete this order from this browser?')){orders=orders.filter(o=>o.id!==id);save('orders',orders);renderOrders();renderDashboard();toast('Order deleted')}};
+$('productForm').addEventListener('submit',e=>{e.preventDefault();products.push({id:Date.now(),name:$('productName').value.trim(),sku:$('sku').value.trim(),price:Number($('productPrice').value),stock:Number($('stock').value)});save('products',products);e.target.reset();$('stock').value=0;renderProducts();renderDashboard();toast('Product saved on this device')});
+function renderProducts(){$('productList').innerHTML=products.length?'<div class="tablewrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody>'+products.map(p=>'<tr><td>'+esc(p.name)+'</td><td>'+esc(p.sku||'—')+'</td><td>'+money(p.price)+'</td><td><span class="badge '+(p.stock<=3?'amber':'green')+'">'+p.stock+'</span></td><td><button class="btn danger" style="padding:6px 9px" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No products yet. Add your first product above.</div>'}
+window.deleteProduct=id=>{if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);save('products',products);renderProducts();renderDashboard();toast('Product deleted')}};
+function calc(){let c=+$('cost').value||0,p=+$('pack').value||0,d=+$('delivery').value||0,s=+$('sell').value||0,t=c+p+d,profit=s-t;$('totalCost').textContent=money(t);$('profitValue').textContent=money(profit);$('profitValue').style.color=profit<0?'#ff8995':'#83edc2';$('marginValue').textContent=(s>0?(profit/s*100).toFixed(1):'0')+'%';$('breakEven').textContent=money(t)}
+['cost','pack','delivery','sell'].forEach(id=>$(id).addEventListener('input',calc));
+const templates={confirm:'Hello {name}, thank you for your order {order}! We have received it and will update you when it is ready. — {shop}',payment:'Hello {name}, a friendly reminder that payment for order {order} is still pending. Please contact us if you need help. — {shop}',dispatch:'Hello {name}, your order {order} has been dispatched. We will share any available tracking update with you. Thank you! — {shop}',delay:'Hello {name}, we are sorry that order {order} is taking longer than expected. Thank you for your patience. Please message us if you need an update. — {shop}',feedback:'Hello {name}, we hope you are enjoying your order {order}. We would appreciate your feedback. Thank you for supporting {shop}!'}};
+function makeMessage(){let t=templates[$('templateType').value];$('messageOutput').value=t.replaceAll('{name}',$('msgName').value||'there').replaceAll('{order}',$('msgOrder').value||'your order').replaceAll('{shop}',$('shopName').value||'our shop')}
+['templateType','msgName','msgOrder','shopName'].forEach(id=>$(id).addEventListener('input',makeMessage));
+$('copyMessage').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('messageOutput').value);toast('Message copied')}catch(e){$('messageOutput').select();toast('Select and copy the message')}});
+makeMessage();renderDashboard();renderOrders();renderProducts();calc();
+</script>
+</body>
+</html>
