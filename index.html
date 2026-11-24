@@ -3,181 +3,154 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090d1c">
-<title>Nuvora Market — Seller Workspace</title>
+<meta name="theme-color" content="#101827">
+<title>Nuvora Market | Seller Workspace</title>
 <style>
-:root{--bg:#080c19;--panel:#11182b;--panel2:#151f36;--line:#26334f;--text:#f4f6ff;--muted:#a5afc7;--purple:#8b5cf6;--cyan:#43d6d0;--green:#42d392;--red:#ff727f;--amber:#f7c66b}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#29205a 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+:root{--ink:#172033;--muted:#687386;--line:#e7eaf0;--paper:#fff;--wash:#f5f7fb;--navy:#17243a;--violet:#6652a3;--green:#16845b;--red:#b54755}
+*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select,textarea{font:inherit}button{cursor:pointer}
-.wrap{max-width:1180px;margin:auto;padding:18px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
-.brand{display:flex;align-items:center;gap:11px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--purple),#4231a5);display:grid;place-items:center;font-weight:900;font-size:20px;box-shadow:0 8px 30px #6844d855}
-.brand h1{font-size:19px;margin:0;letter-spacing:.2px}.brand small{display:block;color:var(--muted);font-size:11px}
-.pill{border:1px solid #3a4770;color:#c8c3ff;padding:6px 10px;border-radius:99px;font-size:11px}
-.hero{padding:24px;border:1px solid #34315d;background:linear-gradient(115deg,#211c46,#121a31 65%,#102c3a);border-radius:22px;margin-bottom:18px}
-.hero h2{font-size:clamp(23px,5vw,34px);line-height:1.15;margin:0 0 8px}.hero p{color:#c1c9df;margin:0;max-width:660px}
-.notice{margin-top:13px;color:#f4d99d;font-size:12px}
-.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 13px;margin-bottom:12px}
-.tab{white-space:nowrap;background:#11182b;color:#c4cce0;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-.tab.active{background:#30245c;border-color:#8b5cf6;color:white}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
-.card,.panel{background:linear-gradient(180deg,#141d32,#101728);border:1px solid var(--line);border-radius:17px;padding:16px}
-.metric small{color:var(--muted)}.metric strong{display:block;font-size:26px;margin-top:5px}.metric span{font-size:11px;color:#aeb9d0}
-.panel{margin-bottom:14px}.panel h3{margin:0 0 12px;font-size:17px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.btn{background:linear-gradient(120deg,#8b5cf6,#5b49c8);color:white;border:0;border-radius:11px;padding:10px 14px;font-weight:650}
-.btn.secondary{background:#202b45;border:1px solid #3a4968}.btn.danger{background:#512532;border:1px solid #8c3c51}
-input,select,textarea{background:#0b1222;border:1px solid #33415f;border-radius:10px;color:white;padding:11px;width:100%;min-width:0}
-label{display:block;color:#b9c4dc;font-size:12px;margin:0 0 5px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field.full{grid-column:1/-1}
-.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #26334b;font-size:13px}th{color:#aab6d0;font-weight:600}
-.badge{display:inline-block;padding:4px 8px;border-radius:99px;font-size:11px;background:#263450;color:#d9e3ff}.badge.green{background:#173e36;color:#83edc2}.badge.amber{background:#49391c;color:#f7d78d}.badge.red{background:#49232e;color:#ff9daa}
-.muted{color:var(--muted)}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed #3b4966;border-radius:13px}
-.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.quick button{text-align:left;background:#17213a;border:1px solid #34425f;border-radius:13px;color:white;padding:14px}.quick b{display:block;margin-bottom:3px}.quick span{color:#aab6d0;font-size:12px}
-.hidden{display:none!important}.footer{text-align:center;color:#7f8ba7;font-size:11px;padding:18px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#233b36;border:1px solid #39866e;color:#c8ffe9;padding:10px 15px;border-radius:12px;display:none;z-index:9}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{grid-template-columns:1fr}.wrap{padding:13px}.hero{padding:19px}.top{align-items:flex-start}}
-@media(max-width:420px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.metric strong{font-size:22px}}
+.shell{max-width:1120px;margin:auto;padding:22px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:750;font-size:19px}
+.brand h1{font-size:19px;letter-spacing:-.4px;margin:0}.brand p{margin:1px 0 0;color:var(--muted);font-size:12px}
+.header-note{font-size:12px;color:var(--muted)}
+.intro{padding:25px 0 22px;border-bottom:1px solid var(--line);margin-bottom:20px}.intro h2{font-size:clamp(24px,4vw,32px);letter-spacing:-1px;margin:0 0 6px}.intro p{margin:0;color:var(--muted);max-width:650px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:3px 0 15px}.tab{border:1px solid var(--line);background:#fff;color:#475267;padding:9px 13px;border-radius:9px;white-space:nowrap}.tab.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.view.hidden{display:none!important}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:4px 0 16px}.panel,.stat{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:5px;font-weight:650;letter-spacing:-.5px}
+.panel{margin-bottom:14px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.panel h3{font-size:16px;margin:0;font-weight:650}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.quick button{background:#fff;border:1px solid var(--line);border-radius:10px;text-align:left;padding:14px;color:var(--ink)}.quick button:hover,.tab:hover{border-color:#a9a0c7}.quick b{display:block;font-size:14px}.quick span{font-size:12px;color:var(--muted)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field.full{grid-column:1/-1}label{display:block;font-size:12px;font-weight:600;color:#566176;margin-bottom:5px}
+input,select,textarea{width:100%;min-width:0;border:1px solid #d9dee8;border-radius:8px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px #6652a319}
+.btn{border:0;border-radius:8px;padding:10px 14px;background:var(--navy);color:white;font-weight:600}.btn.secondary{background:#eef0f5;color:#354056}.btn.danger{background:#fff0f1;color:var(--red);border:1px solid #f0d3d7}
+.muted{color:var(--muted);font-size:12px}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed #d9dee8;border-radius:9px}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.pill{display:inline-block;border-radius:99px;padding:3px 8px;background:#eef1f6;color:#4c5870;font-size:11px}.pill.green{background:#e7f5ee;color:#14744e}.pill.red{background:#fff0f1;color:#a63847}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.result{background:#f7f8fb;border:1px solid var(--line);border-radius:9px;padding:12px}.result small{display:block;color:var(--muted)}.result strong{font-size:19px}
+.footer{text-align:center;padding:20px 0;color:#8790a0;font-size:11px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#17243a;color:#fff;padding:10px 15px;border-radius:9px;display:none;z-index:5}
+@media(max-width:700px){.shell{padding:14px}.stats{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:1fr}.calc-grid{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.header-note{max-width:120px;text-align:right}}
+@media(max-width:430px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.panel{padding:13px}.stat{padding:13px}.stat strong{font-size:22px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top">
- <div class="brand"><div class="logo">N</div><div><h1>Nuvora Market</h1><small>SELLER WORKSPACE</small></div></div>
- <span class="pill">STAGE 1 · STARTER MVP</span>
+<div class="shell">
+<header>
+ <div class="brand"><div class="mark">N</div><div><h1>Nuvora Market</h1><p>Business tools for independent sellers</p></div></div>
+ <div class="header-note">Your shop, organised.</div>
 </header>
-<section class="hero">
- <h2>Run your shop.<br><span style="color:#bba7ff">With more clarity.</span></h2>
- <p>A simple workspace for independent WhatsApp and Instagram sellers to track orders, products and business numbers.</p>
- <div class="notice">Preview version: records are saved only in this browser on this device. Do not enter sensitive customer or payment details.</div>
+<section class="intro">
+ <h2>Good business starts with a clear view.</h2>
+ <p>Keep orders, products and everyday business numbers organised in one simple workspace.</p>
 </section>
 <nav class="tabs" aria-label="Main navigation">
- <button class="tab active" data-view="dashboard">Overview</button>
- <button class="tab" data-view="orders">Orders</button>
- <button class="tab" data-view="products">Products & Stock</button>
- <button class="tab" data-view="profit">Profit Calculator</button>
- <button class="tab" data-view="messages">Message Templates</button>
+ <button class="tab active" data-view="dashboard" type="button">Overview</button>
+ <button class="tab" data-view="orders" type="button">Orders</button>
+ <button class="tab" data-view="products" type="button">Products & stock</button>
+ <button class="tab" data-view="profit" type="button">Profit calculator</button>
+ <button class="tab" data-view="messages" type="button">Message templates</button>
 </nav>
-
 <main>
 <section id="dashboard" class="view">
- <div class="grid">
-  <div class="card metric"><small>Total orders</small><strong id="mOrders">0</strong><span>All saved orders</span></div>
-  <div class="card metric"><small>Open orders</small><strong id="mOpen">0</strong><span>Not yet delivered</span></div>
-  <div class="card metric"><small>Sales recorded</small><strong id="mSales">$0.00</strong><span>Based on saved orders</span></div>
-  <div class="card metric"><small>Products</small><strong id="mProducts">0</strong><span>Items in your catalogue</span></div>
+ <div class="stats">
+  <div class="stat"><small>Total orders</small><strong id="mOrders">0</strong></div>
+  <div class="stat"><small>Open orders</small><strong id="mOpen">0</strong></div>
+  <div class="stat"><small>Sales recorded</small><strong id="mSales">$0.00</strong></div>
+  <div class="stat"><small>Products</small><strong id="mProducts">0</strong></div>
  </div>
- <div class="panel">
-  <div class="row"><h3>Quick actions</h3><span class="muted" style="font-size:12px">Your daily shop tools</span></div>
+ <div class="panel"><div class="panel-head"><h3>Quick actions</h3><span class="muted">Common tasks</span></div>
   <div class="quick">
-   <button data-go="orders"><b>＋ Add an order</b><span>Record a customer purchase</span></button>
-   <button data-go="products"><b>＋ Add a product</b><span>Track a product and stock</span></button>
-   <button data-go="profit"><b>Calculate profit</b><span>Check costs and selling price</span></button>
+   <button type="button" data-go="orders"><b>＋ Add an order</b><span>Record a customer purchase</span></button>
+   <button type="button" data-go="products"><b>＋ Add a product</b><span>Update your catalogue and stock</span></button>
+   <button type="button" data-go="profit"><b>Calculate profit</b><span>Review costs and selling price</span></button>
   </div>
  </div>
- <div class="panel"><h3>Recent orders</h3><div id="recentOrders" class="empty">No orders yet. Add your first order to get started.</div></div>
+ <div class="panel"><h3 style="margin-bottom:12px">Recent orders</h3><div id="recentOrders" class="empty">No orders yet. Add your first order to get started.</div></div>
 </section>
-
 <section id="orders" class="view hidden">
- <div class="panel">
-  <div class="row"><h3>Add a new order</h3><span class="muted" style="font-size:12px">Keep customer details minimal</span></div>
+ <div class="panel"><div class="panel-head"><h3>Add a new order</h3><span class="muted">Use test details while trying the workspace</span></div>
   <form id="orderForm" class="formgrid">
-   <div class="field"><label>Customer name *</label><input id="customer" required maxlength="60" placeholder="Customer name"></div>
-   <div class="field"><label>Order reference</label><input id="reference" maxlength="30" placeholder="e.g. ORD-001"></div>
-   <div class="field"><label>Product / item *</label><input id="item" required maxlength="80" placeholder="Product name"></div>
-   <div class="field"><label>Order amount *</label><input id="amount" type="number" min="0" step="0.01" required placeholder="0.00"></div>
-   <div class="field"><label>Payment status</label><select id="payment"><option>Unpaid</option><option>Part-paid</option><option>Paid</option></select></div>
-   <div class="field"><label>Order status</label><select id="status"><option>New</option><option>Confirmed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
+   <div><label for="customer">Customer name *</label><input id="customer" required maxlength="60" placeholder="Customer name"></div>
+   <div><label for="reference">Order reference</label><input id="reference" maxlength="30" placeholder="e.g. ORD-001"></div>
+   <div><label for="item">Product / item *</label><input id="item" required maxlength="80" placeholder="Product name"></div>
+   <div><label for="amount">Order amount *</label><input id="amount" type="number" min="0" step="0.01" required placeholder="0.00"></div>
+   <div><label for="payment">Payment status</label><select id="payment"><option>Unpaid</option><option>Part-paid</option><option>Paid</option></select></div>
+   <div><label for="status">Order status</label><select id="status"><option>New</option><option>Confirmed</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></div>
    <div class="field full"><button class="btn" type="submit">Save order</button></div>
   </form>
  </div>
- <div class="panel"><div class="row"><h3>Order list</h3><input id="orderSearch" style="max-width:220px" placeholder="Search orders"></div><div id="orderList"></div></div>
+ <div class="panel"><div class="panel-head"><h3>Order list</h3><input id="orderSearch" style="max-width:230px" placeholder="Search orders" aria-label="Search orders"></div><div id="orderList"></div></div>
 </section>
-
 <section id="products" class="view hidden">
- <div class="panel">
-  <h3>Add a product</h3>
+ <div class="panel"><h3 style="margin-bottom:13px">Add a product</h3>
   <form id="productForm" class="formgrid">
-   <div class="field"><label>Product name *</label><input id="productName" required maxlength="80" placeholder="e.g. Cotton scarf"></div>
-   <div class="field"><label>SKU / code</label><input id="sku" maxlength="30" placeholder="Optional"></div>
-   <div class="field"><label>Selling price *</label><input id="productPrice" type="number" min="0" step="0.01" required placeholder="0.00"></div>
-   <div class="field"><label>Stock quantity</label><input id="stock" type="number" min="0" step="1" value="0"></div>
+   <div><label for="productName">Product name *</label><input id="productName" required maxlength="80" placeholder="e.g. Cotton scarf"></div>
+   <div><label for="sku">SKU / code</label><input id="sku" maxlength="30" placeholder="Optional"></div>
+   <div><label for="productPrice">Selling price *</label><input id="productPrice" type="number" min="0" step="0.01" required placeholder="0.00"></div>
+   <div><label for="stock">Stock quantity</label><input id="stock" type="number" min="0" step="1" value="0"></div>
    <div class="field full"><button class="btn" type="submit">Save product</button></div>
   </form>
  </div>
- <div class="panel"><h3>Product catalogue</h3><div id="productList"></div></div>
+ <div class="panel"><h3 style="margin-bottom:12px">Product catalogue</h3><div id="productList"></div></div>
 </section>
-
 <section id="profit" class="view hidden">
- <div class="panel">
-  <h3>Quick profit calculator</h3>
-  <p class="muted" style="font-size:13px;margin-top:-5px">Enter one item's costs and selling price. This is an estimate before taxes or other fees not entered here.</p>
+ <div class="panel"><h3>Profit calculator</h3><p class="muted">Enter your costs and selling price to estimate profit before any costs or taxes not included here.</p>
   <div class="formgrid">
-   <div class="field"><label>Product cost</label><input id="cost" type="number" min="0" step="0.01" value="0"></div>
-   <div class="field"><label>Packaging cost</label><input id="pack" type="number" min="0" step="0.01" value="0"></div>
-   <div class="field"><label>Delivery / other cost paid by seller</label><input id="delivery" type="number" min="0" step="0.01" value="0"></div>
-   <div class="field"><label>Selling price</label><input id="sell" type="number" min="0" step="0.01" value="0"></div>
+   <div><label for="cost">Product cost</label><input id="cost" type="number" min="0" step="0.01" value="0"></div>
+   <div><label for="pack">Packaging cost</label><input id="pack" type="number" min="0" step="0.01" value="0"></div>
+   <div><label for="delivery">Delivery / other seller cost</label><input id="delivery" type="number" min="0" step="0.01" value="0"></div>
+   <div><label for="sell">Selling price</label><input id="sell" type="number" min="0" step="0.01" value="0"></div>
   </div>
-  <div class="grid" style="margin-top:15px">
-   <div class="card metric"><small>Total entered cost</small><strong id="totalCost">$0.00</strong></div>
-   <div class="card metric"><small>Estimated profit</small><strong id="profitValue">$0.00</strong></div>
-   <div class="card metric"><small>Profit margin</small><strong id="marginValue">0%</strong></div>
-   <div class="card metric"><small>Break-even price</small><strong id="breakEven">$0.00</strong></div>
+  <div class="calc-grid">
+   <div class="result"><small>Total cost</small><strong id="totalCost">$0.00</strong></div>
+   <div class="result"><small>Estimated profit</small><strong id="profitValue">$0.00</strong></div>
+   <div class="result"><small>Profit margin</small><strong id="marginValue">0%</strong></div>
+   <div class="result"><small>Break-even price</small><strong id="breakEven">$0.00</strong></div>
   </div>
-  <p class="muted" style="font-size:11px">Currency display is USD in this starter preview. A later settings step will let each seller choose their currency.</p>
+  <p class="muted">Amounts are currently displayed in USD.</p>
  </div>
 </section>
-
 <section id="messages" class="view hidden">
- <div class="panel">
-  <h3>Customer message templates</h3>
-  <p class="muted" style="font-size:13px">Choose a template, personalise it and copy the message into WhatsApp or Instagram yourself.</p>
+ <div class="panel"><h3 style="margin-bottom:13px">Customer message templates</h3><p class="muted">Personalise a message, then copy it into WhatsApp or Instagram.</p>
   <div class="formgrid">
-   <div class="field"><label>Message type</label><select id="templateType"><option value="confirm">Order confirmation</option><option value="payment">Payment reminder</option><option value="dispatch">Dispatch update</option><option value="delay">Delivery delay</option><option value="feedback">Feedback request</option></select></div>
-   <div class="field"><label>Customer first name</label><input id="msgName" placeholder="Customer name"></div>
-   <div class="field"><label>Order reference</label><input id="msgOrder" placeholder="Order number"></div>
-   <div class="field"><label>Shop name</label><input id="shopName" placeholder="Your shop name"></div>
-   <div class="field full"><label>Your message</label><textarea id="messageOutput" rows="5"></textarea></div>
+   <div><label for="templateType">Message type</label><select id="templateType"><option value="confirm">Order confirmation</option><option value="payment">Payment reminder</option><option value="dispatch">Dispatch update</option><option value="delay">Delivery delay</option><option value="feedback">Feedback request</option></select></div>
+   <div><label for="msgName">Customer first name</label><input id="msgName" placeholder="Customer name"></div>
+   <div><label for="msgOrder">Order reference</label><input id="msgOrder" placeholder="Order number"></div>
+   <div><label for="shopName">Shop name</label><input id="shopName" placeholder="Your shop name"></div>
+   <div class="field full"><label for="messageOutput">Your message</label><textarea id="messageOutput" rows="5"></textarea></div>
    <div class="field full"><button class="btn" id="copyMessage" type="button">Copy message</button></div>
   </div>
  </div>
 </section>
 </main>
-<div class="footer">Nuvora Market · Built for independent sellers · Stage 1 preview</div>
+<div class="footer">Nuvora Market · Seller workspace</div>
 </div>
 <div id="toast" class="toast" role="status"></div>
 <script>
+'use strict';
 const $=id=>document.getElementById(id);
-const load=(k)=>{try{return JSON.parse(localStorage.getItem('nuvora_'+k)||'[]')}catch(e){return[]}};
-const save=(k,v)=>localStorage.setItem('nuvora_'+k,JSON.stringify(v));
-let orders=load('orders'), products=load('products');
+const load=k=>{try{return JSON.parse(localStorage.getItem('nuvora_'+k)||'[]')}catch(e){return[]}};
+const save=(k,v)=>{try{localStorage.setItem('nuvora_'+k,JSON.stringify(v));return true}catch(e){toast('Could not save data in this browser');return false}};
+let orders=load('orders'),products=load('products');
 const money=n=>'$'+Number(n||0).toFixed(2);
 function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2200)}
-function show(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));if(view==='dashboard')renderDashboard()}
+function show(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));$(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));if(view==='dashboard')renderDashboard();if(view==='orders')renderOrders();if(view==='products')renderProducts()}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
-function renderDashboard(){
- $('mOrders').textContent=orders.length;
- $('mOpen').textContent=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;
- $('mSales').textContent=money(orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+Number(o.amount),0));
- $('mProducts').textContent=products.length;
- const recent=orders.slice(-5).reverse();
- $('recentOrders').innerHTML=recent.length?tableOrders(recent,false):'<div class="empty">No orders yet. Add your first order to get started.</div>';
-}
-function tableOrders(list,actions=true){
- return '<div class="tablewrap"><table><thead><tr><th>Customer</th><th>Item</th><th>Amount</th><th>Payment</th><th>Status</th>'+(actions?'<th>Action</th>':'')+'</tr></thead><tbody>'+list.map(o=>'<tr><td>'+esc(o.customer)+'</td><td>'+esc(o.item)+'</td><td>'+money(o.amount)+'</td><td>'+esc(o.payment)+'</td><td><span class="badge '+(o.status==='Delivered'?'green':o.status==='Cancelled'?'red':'amber')+'">'+esc(o.status)+'</span></td>'+(actions?'<td><select aria-label="Change order status" onchange="changeStatus('+o.id+',this.value)">'+['New','Confirmed','Shipped','Delivered','Cancelled'].map(s=>'<option '+(o.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button class="btn danger" style="margin-top:5px;padding:6px 9px" onclick="deleteOrder('+o.id+')">Delete</button></td>':'')+'</tr>').join('')+'</tbody></table></div>';
-}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('orderForm').addEventListener('submit',e=>{e.preventDefault();orders.push({id:Date.now(),customer:$('customer').value.trim(),reference:$('reference').value.trim(),item:$('item').value.trim(),amount:Number($('amount').value),payment:$('payment').value,status:$('status').value});save('orders',orders);e.target.reset();renderOrders();renderDashboard();toast('Order saved on this device')});
+function tableOrders(list,actions=true){return '<div class="tablewrap"><table><thead><tr><th>Customer</th><th>Item</th><th>Amount</th><th>Payment</th><th>Status</th>'+(actions?'<th>Action</th>':'')+'</tr></thead><tbody>'+list.map(o=>'<tr><td>'+esc(o.customer)+'</td><td>'+esc(o.item)+'</td><td>'+money(o.amount)+'</td><td>'+esc(o.payment)+'</td><td>'+esc(o.status)+'</td>'+(actions?'<td><select aria-label="Change order status" onchange="changeStatus('+o.id+',this.value)">'+['New','Confirmed','Shipped','Delivered','Cancelled'].map(s=>'<option '+(o.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button class="btn danger" style="margin-top:5px;padding:6px 9px" onclick="deleteOrder('+o.id+')">Delete</button></td>':'')+'</tr>').join('')+'</tbody></table></div>'}
+function renderDashboard(){$('mOrders').textContent=orders.length;$('mOpen').textContent=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;$('mSales').textContent=money(orders.filter(o=>o.status!=='Cancelled').reduce((a,o)=>a+Number(o.amount),0));$('mProducts').textContent=products.length;const recent=orders.slice(-5).reverse();$('recentOrders').innerHTML=recent.length?tableOrders(recent,false):'<div class="empty">No orders yet. Add your first order to get started.</div>'}
 function renderOrders(){const q=$('orderSearch').value.toLowerCase();const list=orders.filter(o=>(o.customer+' '+o.item+' '+o.reference).toLowerCase().includes(q)).slice().reverse();$('orderList').innerHTML=list.length?tableOrders(list):'<div class="empty">No matching orders yet.</div>'}
+$('orderForm').addEventListener('submit',e=>{e.preventDefault();orders.push({id:Date.now(),customer:$('customer').value.trim(),reference:$('reference').value.trim(),item:$('item').value.trim(),amount:Number($('amount').value),payment:$('payment').value,status:$('status').value});save('orders',orders);e.target.reset();renderOrders();renderDashboard();toast('Order saved on this device')});
 $('orderSearch').addEventListener('input',renderOrders);
 window.changeStatus=(id,s)=>{orders=orders.map(o=>o.id===id?{...o,status:s}:o);save('orders',orders);renderOrders();renderDashboard();toast('Order status updated')};
 window.deleteOrder=id=>{if(confirm('Delete this order from this browser?')){orders=orders.filter(o=>o.id!==id);save('orders',orders);renderOrders();renderDashboard();toast('Order deleted')}};
 $('productForm').addEventListener('submit',e=>{e.preventDefault();products.push({id:Date.now(),name:$('productName').value.trim(),sku:$('sku').value.trim(),price:Number($('productPrice').value),stock:Number($('stock').value)});save('products',products);e.target.reset();$('stock').value=0;renderProducts();renderDashboard();toast('Product saved on this device')});
-function renderProducts(){$('productList').innerHTML=products.length?'<div class="tablewrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody>'+products.map(p=>'<tr><td>'+esc(p.name)+'</td><td>'+esc(p.sku||'—')+'</td><td>'+money(p.price)+'</td><td><span class="badge '+(p.stock<=3?'amber':'green')+'">'+p.stock+'</span></td><td><button class="btn danger" style="padding:6px 9px" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No products yet. Add your first product above.</div>'}
+function renderProducts(){$('productList').innerHTML=products.length?'<div class="tablewrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody>'+products.map(p=>'<tr><td>'+esc(p.name)+'</td><td>'+esc(p.sku||'—')+'</td><td>'+money(p.price)+'</td><td>'+p.stock+'</td><td><button class="btn danger" style="padding:6px 9px" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No products yet. Add your first product above.</div>'}
 window.deleteProduct=id=>{if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);save('products',products);renderProducts();renderDashboard();toast('Product deleted')}};
-function calc(){let c=+$('cost').value||0,p=+$('pack').value||0,d=+$('delivery').value||0,s=+$('sell').value||0,t=c+p+d,profit=s-t;$('totalCost').textContent=money(t);$('profitValue').textContent=money(profit);$('profitValue').style.color=profit<0?'#ff8995':'#83edc2';$('marginValue').textContent=(s>0?(profit/s*100).toFixed(1):'0')+'%';$('breakEven').textContent=money(t)}
+function calc(){let c=+$('cost').value||0,p=+$('pack').value||0,d=+$('delivery').value||0,s=+$('sell').value||0,t=c+p+d,profit=s-t;$('totalCost').textContent=money(t);$('profitValue').textContent=money(profit);$('profitValue').style.color=profit<0?'#b54755':'#16845b';$('marginValue').textContent=(s>0?(profit/s*100).toFixed(1):'0')+'%';$('breakEven').textContent=money(t)}
 ['cost','pack','delivery','sell'].forEach(id=>$(id).addEventListener('input',calc));
-const templates={confirm:'Hello {name}, thank you for your order {order}! We have received it and will update you when it is ready. — {shop}',payment:'Hello {name}, a friendly reminder that payment for order {order} is still pending. Please contact us if you need help. — {shop}',dispatch:'Hello {name}, your order {order} has been dispatched. We will share any available tracking update with you. Thank you! — {shop}',delay:'Hello {name}, we are sorry that order {order} is taking longer than expected. Thank you for your patience. Please message us if you need an update. — {shop}',feedback:'Hello {name}, we hope you are enjoying your order {order}. We would appreciate your feedback. Thank you for supporting {shop}!'}};
+const templates={confirm:'Hello {name}, thank you for your order {order}! We have received it and will update you when it is ready. — {shop}',payment:'Hello {name}, a friendly reminder that payment for order {order} is still pending. Please contact us if you need help. — {shop}',dispatch:'Hello {name}, your order {order} has been dispatched. We will share any available tracking update with you. Thank you! — {shop}',delay:'Hello {name}, we are sorry that order {order} is taking longer than expected.\nThank you for your patience. Please message us if you need an update. — {shop}',feedback:'Hello {name}, we hope you are enjoying your order {order}. We would appreciate your feedback. Thank you for supporting {shop}!'};
 function makeMessage(){let t=templates[$('templateType').value];$('messageOutput').value=t.replaceAll('{name}',$('msgName').value||'there').replaceAll('{order}',$('msgOrder').value||'your order').replaceAll('{shop}',$('shopName').value||'our shop')}
 ['templateType','msgName','msgOrder','shopName'].forEach(id=>$(id).addEventListener('input',makeMessage));
 $('copyMessage').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('messageOutput').value);toast('Message copied')}catch(e){$('messageOutput').select();toast('Select and copy the message')}});
