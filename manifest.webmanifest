@@ -1,9 +1,9 @@
 {
-  "id": "./",
+  "id": "./Nuvora_Market_App.html",
   "name": "Nuvora Market",
   "short_name": "Nuvora",
   "description": "Nuvora Market business workspace",
-  "start_url": "./",
+  "start_url": "./Nuvora_Market_App.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -15,12 +15,6 @@
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "./nuvora-app-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
     }
   ]
 }

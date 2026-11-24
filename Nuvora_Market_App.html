@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Nuvora Market — an all-in-one business workspace.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nuvora Market">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./nuvora-app-icon.svg">
+  <title>Nuvora Market</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#101827}
+    iframe{display:block;width:100%;height:100%;height:100dvh;border:0;background:#f4f6fb}
+  </style>
+</head>
+<body>
+  <iframe title="Nuvora Market business workspace" src="./index.html" allow="clipboard-write"></iframe>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./service-worker.js", {scope:"./"})
+          .catch(function (error) { console.warn("Offline setup could not start:", error); });
+      });
+    }
+  </script>
+</body>
+</html>

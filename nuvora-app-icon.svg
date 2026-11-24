@@ -2,16 +2,11 @@
 <defs>
  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111b31"/><stop offset="1" stop-color="#080b17"/></linearGradient>
  <linearGradient id="bag" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a77aff"/><stop offset=".55" stop-color="#6738bd"/><stop offset="1" stop-color="#32145f"/></linearGradient>
- <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#cbd2e2"/><stop offset="1" stop-color="#858da5"/></linearGradient>
- <filter id="glow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#d8dce8"/><stop offset="1" stop-color="#8f98aa"/></linearGradient>
 </defs>
 <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-<rect x="10" y="10" width="492" height="492" rx="104" fill="none" stroke="#7551b5" stroke-opacity=".55" stroke-width="8"/>
-<ellipse cx="257" cy="399" rx="139" ry="27" fill="#8b5be8" opacity=".22" filter="url(#glow)"/>
-<path d="M165 190h182l-17 210H182z" fill="url(#bag)" stroke="#c3a2ff" stroke-width="8" stroke-linejoin="round"/>
-<path d="M207 194c0-91 98-91 98 0" fill="none" stroke="url(#silver)" stroke-width="17" stroke-linecap="round"/>
-<path d="M213 254v94l42-39 43 39v-94" fill="none" stroke="url(#silver)" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M105 308c35 84 125 119 220 76 35-16 57-42 75-74" fill="none" stroke="#a77aff" stroke-width="12" stroke-linecap="round" opacity=".9"/>
-<path d="M105 308c35 84 125 119 220 76 35-16 57-42 75-74" fill="none" stroke="url(#silver)" stroke-width="4" stroke-linecap="round" opacity=".85"/>
-<path d="M390 150l8 22 22 8-22 8-8 22-8-22-22-8 22-8z" fill="#e7dcff"/>
+<path d="M128 188h256l-22 236H150z" fill="url(#bag)" stroke="#b99aff" stroke-width="10" stroke-linejoin="round"/>
+<path d="M184 192c0-100 144-100 144 0" fill="none" stroke="#d7c5ff" stroke-width="18" stroke-linecap="round"/>
+<path d="M190 350V255l66 66 66-66v95" fill="none" stroke="url(#silver)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M88 300c45-120 117-168 220-152 42 7 80 28 116 62" fill="none" stroke="#b7a0f2" stroke-width="8" stroke-linecap="round" opacity=".8"/>
 </svg>
