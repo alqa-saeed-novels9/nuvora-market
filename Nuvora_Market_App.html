@@ -1,216 +1,279 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#080b22">
-  <meta name="description" content="Nuvora Market — an all-in-one business workspace.">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Nuvora Market">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/png" sizes="192x192" href="./nuvora-icon-192.png">
-  <link rel="apple-touch-icon" href="./nuvora-icon-512.png">
-  <title>Nuvora Market</title>
-  <style>
-    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#080b22}
-    iframe{display:block;width:100%;height:100%;height:100dvh;border:0;background:#f4f6fb}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b22">
+<meta name="description" content="All-in-one business workspace">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./nuvora-icon-192.png">
+<link rel="apple-touch-icon" href="./nuvora-icon-512.png">
+<title>Business Workspace</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#080b22}
+iframe{display:block;width:100%;height:100%;height:100dvh;border:0;background:#f4f6fb}
+</style>
 </head>
 <body>
-  <iframe id="nuvoraFrame" title="Nuvora Market business workspace" src="./index.html" allow="clipboard-write"></iframe>
-  <script>
-  (function(){
-    const frame=document.getElementById('nuvoraFrame');
-    let injected=false, stack=['dashboard'], current='dashboard', lastDoc=null;
-    function install(){
-      if(frame.contentDocument!==lastDoc){lastDoc=frame.contentDocument;injected=false;stack=['dashboard'];current='dashboard';}
-      if(injected)return;
-      let w,d;
-      try{w=frame.contentWindow;d=frame.contentDocument;if(!w||!d||!w.showPage||!B.db)return;}catch(e){return;}
-      injected=true;
-      const bridge=d.createElement('script');
-      bridge.textContent='window.__nuvoraBridge={db:db,persist:persist,today:today,setCurrency:function(v){currency=v;}};';
-      d.body.appendChild(bridge);
-      const B=w.__nuvoraBridge;
-      if(!B){injected=false;return;}
-      const originalShow=w.showPage;
-      B.db.purchases=Array.isArray(B.db.purchases)?B.db.purchases:[];
-      B.db.returns=Array.isArray(B.db.returns)?B.db.returns:[];
-      const style=d.createElement('style');
-      style.textContent='.nuvora-backbar{display:flex;align-items:center;gap:9px;margin:0 0 14px}.nuvora-backbar button{border:1px solid #e5e9f1;background:#fff;color:#3d4860;border-radius:9px;padding:8px 12px;font-weight:700}.nuvora-backbar span{font-size:12px;color:#748096}.logo img{width:100%;height:100%;object-fit:cover}';
-      d.head.appendChild(style);
-      const brandLogo=d.querySelector('.logo');if(brandLogo)brandLogo.innerHTML='<img src="./nuvora-icon-192.png" alt="Nuvora Market">';
-
-      const main=d.querySelector('main');
-      if(!main)return;
-      const back=d.createElement('div');
-      back.className='nuvora-backbar';
-      back.innerHTML='<button type="button" id="nuvoraBack">← Back</button><button type="button" id="nuvoraHome">Home</button><span id="nuvoraTrail">Workspace</span>';
-      main.insertBefore(back,main.firstChild);
-      function updateBar(p){
-        back.hidden=(p==='dashboard');
-        const sec=d.getElementById(p);
-        const h=sec&&sec.querySelector('h1');
-        d.getElementById('nuvoraTrail').textContent=h?h.textContent:'Workspace';
-      }
-      function goBack(){if(stack.length>1){history.back();}else{current='dashboard';stack=['dashboard'];originalShow('dashboard');updateBar('dashboard');}}
-      d.getElementById('nuvoraBack').addEventListener('click',goBack);
-      d.getElementById('nuvoraHome').addEventListener('click',function(){stack=['dashboard'];current='dashboard';originalShow('dashboard');updateBar('dashboard');});
-      function show(p,fromPop){
-        if(p!==current){stack.push(p);current=p;if(!fromPop){try{history.pushState({nuvoraPage:p},'','#'+p);}catch(e){}}}
-        originalShow(p);renderIfNeeded(p);updateBar(p);
-      }
-      w.showPage=show;
-
-      const nav=d.getElementById('nav');
-      const supplier=nav&&nav.querySelector('[data-page="suppliers"]');
-      function addNav(id,label,icon){
-        const b=d.createElement('button');b.type='button';b.dataset.page=id;
-        b.innerHTML='<span class="ico">'+icon+'</span>'+label;
-        b.addEventListener('click',function(){show(id,false);});
-        if(supplier&&supplier.parentNode)supplier.parentNode.insertBefore(b,supplier.nextSibling);
-      }
-      addNav('purchases','Purchases & Bills','🧾');
-      addNav('returns','Returns & Refunds','↩');
-
-      const employee=d.getElementById('employees');
-      const purchases=d.createElement('section');
-      purchases.id='purchases';purchases.className='view hidden';
-      purchases.innerHTML='<div class="pagehead"><div><h1>Purchases & Supplier Bills</h1><p>Record stock purchases, supplier invoices and payments.</p></div></div>'+
-      '<div class="card"><h3 style="margin:0 0 13px">Add purchase</h3><form id="nuBuyForm" class="formgrid">'+
-      '<div><label>Purchase date *</label><input id="nuBuyDate" type="date" required></div><div><label>Supplier *</label><input id="nuBuySupplier" required maxlength="100"></div>'+
-      '<div><label>Bill / invoice reference</label><input id="nuBuyRef" maxlength="50"></div><div><label>Product *</label><select id="nuBuyProduct" required></select></div>'+
-      '<div><label>Quantity *</label><input id="nuBuyQty" type="number" min="1" step="1" value="1" required></div><div><label>Unit cost *</label><input id="nuBuyCost" type="number" min="0" step=".01" required></div>'+
-      '<div><label>Amount paid</label><input id="nuBuyPaid" type="number" min="0" step=".01" value="0"></div><div><label>Stock received</label><select id="nuBuyStock"><option value="yes">Add quantity to stock</option><option value="no">Do not change stock</option></select></div>'+
-      '<div class="field full"><label>Notes</label><textarea id="nuBuyNotes" rows="2"></textarea></div><div class="field full"><button class="btn">Save purchase</button></div></form></div>'+
-      '<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Purchase register</h3><input class="search" id="nuBuySearch" placeholder="Search supplier, bill, product..."></div><div id="nuBuyTable"></div></div>';
-      if(employee)main.insertBefore(purchases,employee);
-      const returns=d.createElement('section');
-      returns.id='returns';returns.className='view hidden';
-      returns.innerHTML='<div class="pagehead"><div><h1>Returns & Refunds</h1><p>Track customer returns, refunds and returned stock.</p></div></div>'+
-      '<div class="card"><h3 style="margin:0 0 13px">Record a return</h3><form id="nuRetForm" class="formgrid">'+
-      '<div><label>Return date *</label><input id="nuRetDate" type="date" required></div><div><label>Original order reference</label><input id="nuRetRef" maxlength="50"></div>'+
-      '<div><label>Customer *</label><input id="nuRetCustomer" required maxlength="100"></div><div><label>Product *</label><select id="nuRetProduct" required></select></div>'+
-      '<div><label>Quantity *</label><input id="nuRetQty" type="number" min="1" step="1" value="1" required></div><div><label>Refund amount</label><input id="nuRetAmount" type="number" min="0" step=".01" value="0"></div>'+
-      '<div><label>Return status</label><select id="nuRetStatus"><option>Received</option><option>Inspected</option><option>Refunded</option><option>Rejected</option></select></div><div><label>Restock item?</label><select id="nuRetRestock"><option value="yes">Yes, add back to stock</option><option value="no">No, do not restock</option></select></div>'+
-      '<div class="field full"><label>Reason / notes</label><textarea id="nuRetReason" rows="2"></textarea></div><div class="field full"><button class="btn">Save return</button></div></form></div>'+
-      '<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Returns register</h3><input class="search" id="nuRetSearch" placeholder="Search customer, order, product..."></div><div id="nuRetTable"></div></div>';
-      if(employee)main.insertBefore(returns,employee);
-
-      const checks=d.querySelector('.checkgrid');
-      if(checks){
-        ['purchases','returns'].forEach(function(k){
-          const lab=d.createElement('label');lab.innerHTML='<input class="deleteChoice" type="checkbox" value="'+k+'"> '+(k==='purchases'?'Purchases & bills':'Returns & refunds');checks.appendChild(lab);
-        });
-      }
-
-      function $(id){return d.getElementById(id);}
-      function esc(v){return w.esc(v);}
-      function money(v){return w.money(v);}
-      function persist(k){return B.persist(k);}
-      function toast(v){w.toast(v);}
-      function today(){return B.today();}
-      function productOptions(el){
-        const old=el.value;
-        el.innerHTML='<option value="">Choose product</option>'+B.db.products.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+(p.sku?' · '+esc(p.sku):'')+'</option>';}).join('');
-        if(B.db.products.some(p=>p.id===old))el.value=old;
-      }
-      function table(headers,rows){return w.table(headers,rows);}
-      function renderPurchases(){
-        productOptions($('nuBuyProduct'));
-        const q=$('nuBuySearch').value.toLowerCase();
-        const list=B.db.purchases.filter(x=>[x.supplier,x.reference,x.productName,x.notes].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
-        $('nuBuyTable').innerHTML=table(['Date','Supplier','Bill ref','Product','Qty','Total','Paid','Balance',''],list.map(function(x){
-          return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.supplier)+'</td><td>'+esc(x.reference||'—')+'</td><td>'+esc(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.total)+'</td><td>'+money(x.paid)+'</td><td>'+money(Math.max(0,x.total-x.paid))+'</td><td><button class="btn danger sm" data-del-purchase="'+x.id+'">Delete</button></td></tr>';
-        }));
-        $('nuBuyTable').querySelectorAll('[data-del-purchase]').forEach(function(b){b.addEventListener('click',function(){if(!confirm('Delete this purchase record?'))return;const item=B.db.purchases.find(x=>x.id===b.dataset.delPurchase);if(item&&item.stockAdded){const prod=B.db.products.find(x=>x.id===item.productId);if(prod){prod.stock=Math.max(0,+prod.stock-(+item.qty||0));persist('products');}}B.db.purchases=B.db.purchases.filter(x=>x.id!==b.dataset.delPurchase);persist('purchases');renderPurchases();});});
-      }
-      function renderReturns(){
-        productOptions($('nuRetProduct'));
-        const q=$('nuRetSearch').value.toLowerCase();
-        const list=B.db.returns.filter(x=>[x.customer,x.reference,x.productName,x.reason,x.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
-        $('nuRetTable').innerHTML=table(['Date','Order ref','Customer','Product','Qty','Refund','Status','Restocked',''],list.map(function(x){
-          return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.reference||'—')+'</td><td>'+esc(x.customer)+'</td><td>'+esc(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.amount)+'</td><td>'+w.statusPill(x.status)+'</td><td>'+(x.restocked?'Yes':'No')+'</td><td><button class="btn danger sm" data-del-return="'+x.id+'">Delete</button></td></tr>';
-        }));
-        $('nuRetTable').querySelectorAll('[data-del-return]').forEach(function(b){b.addEventListener('click',function(){if(!confirm('Delete this return record?'))return;B.db.returns=B.db.returns.filter(x=>x.id!==b.dataset.delReturn);persist('returns');renderReturns();});});
-      }
-      function renderIfNeeded(p){if(p==='purchases')renderPurchases();if(p==='returns')renderReturns();}
-      $('nuBuyDate').value=today();$('nuRetDate').value=today();
-      $('nuBuyForm').addEventListener('submit',function(e){
-        e.preventDefault();
-        const p=B.db.products.find(x=>x.id===$('nuBuyProduct').value);
-        const qty=+$('nuBuyQty').value,unit=+$('nuBuyCost').value,total=qty*unit,paid=+$('nuBuyPaid').value;
-        if(!p){toast('Choose a product first');return;}
-        if(paid>total){toast('Paid amount cannot exceed purchase total');return;}
-        B.db.purchases.push({id:w.id(),date:$('nuBuyDate').value,supplier:$('nuBuySupplier').value.trim(),reference:$('nuBuyRef').value.trim(),productId:p.id,productName:p.name,qty:qty,unitCost:unit,total:total,paid:paid,stockAdded:$('nuBuyStock').value==='yes',notes:$('nuBuyNotes').value.trim()});
-        if($('nuBuyStock').value==='yes'){p.stock=+p.stock+qty;persist('products');}
-        persist('purchases');this.reset();$('nuBuyDate').value=today();$('nuBuyQty').value=1;$('nuBuyPaid').value=0;renderPurchases();w.renderProducts();w.renderDashboard();toast('Purchase saved');
-      });
-      $('nuRetForm').addEventListener('submit',function(e){
-        e.preventDefault();
-        const p=B.db.products.find(x=>x.id===$('nuRetProduct').value),qty=+$('nuRetQty').value;
-        if(!p){toast('Choose a product first');return;}
-        const restocked=$('nuRetRestock').value==='yes';
-        B.db.returns.push({id:w.id(),date:$('nuRetDate').value,reference:$('nuRetRef').value.trim(),customer:$('nuRetCustomer').value.trim(),productId:p.id,productName:p.name,qty:qty,amount:+$('nuRetAmount').value,status:$('nuRetStatus').value,restocked:restocked,reason:$('nuRetReason').value.trim()});
-        if(restocked){p.stock=+p.stock+qty;persist('products');}
-        persist('returns');this.reset();$('nuRetDate').value=today();$('nuRetQty').value=1;$('nuRetAmount').value=0;renderReturns();w.renderProducts();w.renderDashboard();toast('Return saved');
-      });
-      $('nuBuySearch').addEventListener('input',renderPurchases);
-      $('nuRetSearch').addEventListener('input',renderReturns);
-
-      // Extend backup/restore to include the two new registers while retaining older backups.
-      const oldBackup=$('backupBtn');
-      if(oldBackup){
-        const fresh=oldBackup.cloneNode(true);oldBackup.parentNode.replaceChild(fresh,oldBackup);
-        fresh.addEventListener('click',function(){
-          const backup={app:'Nuvora Market',version:4,exportedAt:new Date().toISOString(),data:B.db};
-          w.download(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),'nuvora-market-backup-'+today()+'.json');
-          $('backupStatus').textContent='Full backup downloaded, including purchases and returns.';
-        });
-      }
-      const oldRestore=$('restoreFile');
-      if(oldRestore){
-        const fresh=oldRestore.cloneNode(true);oldRestore.parentNode.replaceChild(fresh,oldRestore);
-        fresh.addEventListener('change',async function(e){
-          const f=e.target.files&&e.target.files[0];if(!f)return;
-          try{
-            const parsed=JSON.parse(await f.text()),data=parsed.data||parsed;
-            const required=['orders','products','transactions','customers','suppliers','employees','store','prefs'];
-            if(!required.every(k=>Object.prototype.hasOwnProperty.call(data,k)))throw new Error('This is not a valid Nuvora Market backup.');
-            if(!confirm('Restore this backup? Current local records will be replaced.'))return;
-            ['orders','products','transactions','customers','suppliers','employees','store','prefs','purchases','returns'].forEach(function(k){
-              B.db[k]=data[k]??((k==='store'||k==='prefs')?{}:[]);B.persist(k);
-            });
-            w.currency=B.db.prefs.currency||'USD';w.refreshAll();renderPurchases();renderReturns();
-            $('backupStatus').textContent='Backup restored on this device.';toast('Backup restored');
-          }catch(err){toast(err.message||'Could not read backup');}
-          e.target.value='';
-        });
-      }
-      function replaceClearButton(id,includeAll){
-        const old=$(id);if(!old)return;
-        const fresh=old.cloneNode(true);old.parentNode.replaceChild(fresh,old);
-        fresh.addEventListener('click',function(){
-          if(!confirm('Permanently delete local Nuvora records? Download a backup first.'))return;
-          const keys=['orders','products','transactions','customers','suppliers','employees','store','prefs','purchases','returns'];
-          keys.forEach(function(k){w.localStorage.removeItem('nuvora_'+k);B.db[k]=(k==='store'||k==='prefs')?{}:[];});
-          w.localStorage.removeItem('nuvora_last_saved');w.refreshAll();renderPurchases();renderReturns();toast('Local data cleared');
-        });
-      }
-      replaceClearButton('clearData',true);
-      replaceClearButton('privacyDeleteAll',true);
-      updateBar('dashboard');
-    }
-    frame.addEventListener('load',install);
-    window.addEventListener('popstate',function(){
-      if(!injected)return;
-      if(stack.length>1){stack.pop();current=stack[stack.length-1];try{frame.contentWindow.showPage(current,true);}catch(e){}}
-      else{stack=['dashboard'];current='dashboard';try{frame.contentWindow.showPage('dashboard',true);}catch(e){}}
-      try{const d=frame.contentDocument;const bar=d.querySelector('.nuvora-backbar');bar.hidden=(current==='dashboard');const h=d.getElementById(current).querySelector('h1');d.getElementById('nuvoraTrail').textContent=h?h.textContent:'Workspace';}catch(e){}
-    });
-    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js',{scope:'./'}).catch(function(e){console.warn('Offline setup could not start:',e);});});}
-  })();
-  </script>
+<iframe id="appFrame" title="Business workspace" src="./index.html" allow="clipboard-write"></iframe>
+<script>
+(function(){
+'use strict';
+const frame=document.getElementById('appFrame');
+let ready=false, docRef=null, current='dashboard', stack=['dashboard'], originalShow=null, B=null;
+const KEYS=['orders','products','transactions','customers','suppliers','employees','store','prefs','purchases','returns'];
+let businessesCache=null, activeBusinessCache='';
+const $=id=>frame.contentDocument.getElementById(id);
+function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function notify(s){try{frame.contentWindow.toast(s)}catch(e){}}
+function persist(k){try{B.persist(k)}catch(e){}}
+function getBusinesses(){if(B.isTemporary()&&businessesCache)return businessesCache;try{return JSON.parse(localStorage.getItem('nuvora_businesses')||'[]')}catch(e){return[]}}
+function setBusinesses(v){if(B.isTemporary()){businessesCache=v;return}try{localStorage.setItem('nuvora_businesses',JSON.stringify(v))}catch(e){notify('Could not save business list. Download a backup.');}}
+function activeId(){if(B.isTemporary()&&activeBusinessCache)return activeBusinessCache;return localStorage.getItem('nuvora_active_business_id')||''}
+function setActiveId(v){if(B.isTemporary()){activeBusinessCache=v;return}localStorage.setItem('nuvora_active_business_id',v)}
+function snapshot(){const out={};KEYS.forEach(k=>out[k]=B.db[k]??((k==='store'||k==='prefs')?{}:[]));return out}
+function saveBusinessData(id){if(B.isTemporary())return;try{localStorage.setItem('nuvora_business_data_'+id,JSON.stringify(snapshot()))}catch(e){notify('Storage is full. Download a backup before continuing.');}}
+function loadBusinessData(id){let data={};try{data=JSON.parse(localStorage.getItem('nuvora_business_data_'+id)||'{}')}catch(e){}
+  KEYS.forEach(k=>{B.db[k]=data[k]??((k==='store'||k==='prefs')?{}:[]);persist(k)});
+  try{B.setCurrency(B.db.prefs.currency||'USD')}catch(e){}
+  frame.contentWindow.refreshAll();
+}
+function initBusinesses(){
+  let list=getBusinesses(),id=activeId();
+  if(!list.length){
+    id='biz-'+Date.now().toString(36);
+    list=[{id,name:(B.db.prefs.business||'My Business'),createdAt:new Date().toISOString()}];
+    setBusinesses(list);setActiveId(id);saveBusinessData(id);
+  }else{
+    if(!list.some(x=>x.id===id)){id=list[0].id;setActiveId(id);}
+    saveBusinessData(id);
+  }
+  return list;
+}
+function ensureArrays(){
+  if(!Array.isArray(B.db.purchases))B.db.purchases=[];
+  if(!Array.isArray(B.db.returns))B.db.returns=[];
+}
+function injectBridge(){
+  const d=frame.contentDocument;
+  const s=d.createElement('script');
+  s.textContent='window.__workspaceBridge={db:db,persist:persist,today:today,keys:KEYS,isTemporary:function(){return noSaveMode;},setCurrency:function(v){currency=v;}};';
+  d.body.appendChild(s);
+  B=frame.contentWindow.__workspaceBridge;
+  if(!B)throw new Error('App data bridge could not start');
+}
+function addStyle(){
+ const s=frame.contentDocument.createElement('style');
+ s.textContent=`
+ .workspace-backbar{display:flex;gap:8px;align-items:center;margin:0 0 15px;position:sticky;top:0;z-index:6;background:#f4f6fb;padding:7px 0}
+ .workspace-backbar button{border:1px solid #dce2ec;background:#fff;color:#34415a;border-radius:9px;padding:8px 12px;font-weight:700}
+ .workspace-backbar span{font-size:12px;color:#748096}
+ .workspace-section{margin-top:14px}.workspace-muted{font-size:12px;color:#748096}
+ .workspace-chart{display:flex;align-items:end;gap:7px;height:180px;padding:12px 4px 0;border-bottom:1px solid #dce2ec}
+ .workspace-bar{flex:1;min-width:0;background:#7658bd;border-radius:6px 6px 0 0;position:relative}
+ .workspace-bar small{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:#748096}
+ .workspace-bar b{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:9px;white-space:nowrap;color:#59647a}
+ .workspace-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ @media(max-width:560px){.workspace-grid{grid-template-columns:1fr}}
+ .workspace-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+ .workspace-table{overflow:auto}.workspace-table table{min-width:560px}
+ .workspace-pill{display:inline-block;border-radius:20px;background:#eee9fa;color:#57418f;padding:3px 8px;font-size:11px}
+ `;
+ d.head.appendChild(s);
+}
+function addNav(id,label,icon,after){
+ const d=frame.contentDocument, nav=d.getElementById('nav');
+ if(!nav||nav.querySelector('[data-page="'+id+'"]'))return;
+ const b=d.createElement('button');b.type='button';b.dataset.page=id;b.innerHTML='<span class="ico">'+icon+'</span>'+label;
+ const ref=nav.querySelector('[data-page="'+after+'"]');
+ if(ref&&ref.parentNode)ref.parentNode.insertBefore(b,ref.nextSibling);else nav.appendChild(b);
+}
+function section(id,html,beforeId){
+ const d=frame.contentDocument,main=d.querySelector('main');
+ let old=d.getElementById(id);if(old)old.remove();
+ const el=d.createElement('section');el.id=id;el.className='view hidden';el.innerHTML=html;
+ const before=d.getElementById(beforeId);
+ if(before&&before.parentNode)before.parentNode.insertBefore(el,before);else main.appendChild(el);
+ return el;
+}
+function addBackbar(){
+ const d=frame.contentDocument,main=d.querySelector('main'),bar=d.createElement('div');
+ bar.className='workspace-backbar';bar.innerHTML='<button type="button" id="workspaceBack">← Back</button><button type="button" id="workspaceHome">⌂ Home</button><span id="workspaceTrail">Workspace</span>';
+ main.insertBefore(bar,main.firstChild);
+ bar.querySelector('#workspaceBack').addEventListener('click',()=>{if(stack.length>1)history.back();else go('dashboard',false,true)});
+ bar.querySelector('#workspaceHome').addEventListener('click',()=>{stack=['dashboard'];current='dashboard';history.replaceState({workspacePage:'dashboard'},'','#dashboard');go('dashboard',false,true)});
+}
+function updateBar(p){
+ const d=frame.contentDocument,bar=d.querySelector('.workspace-backbar');if(!bar)return;
+ bar.hidden=(p==='dashboard');
+ const h=d.getElementById(p)?.querySelector('h1');
+ const trail=d.getElementById('workspaceTrail');if(trail)trail.textContent=h?h.textContent:'Workspace';
+}
+function go(p,push=true,fromPop=false){
+ if(!frame.contentDocument.getElementById(p))return;
+ if(push&&p!==current){stack.push(p);history.pushState({workspacePage:p},'','#'+p)}
+ current=p;
+ originalShow(p);
+ renderPage(p);
+ updateBar(p);
+}
+function renderPage(p){
+ if(p==='purchases')renderPurchases();
+ if(p==='returns')renderReturns();
+ if(p==='businesses')renderBusinesses();
+ if(p==='invoices')renderInvoices();
+ if(p==='analytics')renderAnalytics();
+}
+function hookNavigation(){
+ const d=frame.contentDocument,nav=d.getElementById('nav');
+ nav.addEventListener('click',e=>{
+   const b=e.target.closest('button[data-page]');if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();go(b.dataset.page,true);
+ },true);
+ frame.contentWindow.showPage=(p)=>go(p,true);
+}
+function table(headers,rows){
+ if(!rows.length)return '<div class="empty">No records found.</div>';
+ return '<div class="tablewrap"><table><thead><tr>'+headers.map(x=>'<th>'+safe(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+}
+function money(v){return frame.contentWindow.money(v)}
+function today(){return B.today()}
+function productOptions(id){const el=$(id),old=el.value;el.innerHTML='<option value="">Choose product</option>'+B.db.products.map(p=>'<option value="'+safe(p.id)+'">'+safe(p.name)+(p.sku?' · '+safe(p.sku):'')+'</option>').join('');if(B.db.products.some(p=>p.id===old))el.value=old}
+function renderPurchases(){
+ productOptions('buyProduct');
+ const q=$('buySearch').value.toLowerCase();
+ const rows=B.db.purchases.filter(x=>[x.supplier,x.reference,x.productName,x.notes].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
+ $('buyTable').innerHTML=table(['Date','Supplier','Bill ref','Product','Qty','Total','Paid','Balance',''],rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(x.supplier)+'</td><td>'+safe(x.reference||'—')+'</td><td>'+safe(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.total)+'</td><td>'+money(x.paid)+'</td><td>'+money(Math.max(0,x.total-x.paid))+'</td><td><button class="btn danger sm" data-del-buy="'+safe(x.id)+'">Delete</button></td></tr>'));
+ $('buyTable').querySelectorAll('[data-del-buy]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this purchase? Stock will be adjusted back if it was added.'))return;const x=B.db.purchases.find(z=>z.id===b.dataset.delBuy);if(x&&x.stockAdded){const p=B.db.products.find(z=>z.id===x.productId);if(p)p.stock=Math.max(0,+p.stock-(+x.qty||0));persist('products')}B.db.purchases=B.db.purchases.filter(z=>z.id!==b.dataset.delBuy);persist('purchases');renderPurchases();frame.contentWindow.renderProducts();frame.contentWindow.renderDashboard()});
+}
+function renderReturns(){
+ productOptions('retProduct');
+ const q=$('retSearch').value.toLowerCase();
+ const rows=B.db.returns.filter(x=>[x.customer,x.reference,x.productName,x.reason,x.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
+ $('retTable').innerHTML=table(['Date','Order ref','Customer','Product','Qty','Refund','Status','Restocked',''],rows.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(x.reference||'—')+'</td><td>'+safe(x.customer)+'</td><td>'+safe(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.amount)+'</td><td>'+safe(x.status)+'</td><td>'+(x.restocked?'Yes':'No')+'</td><td><button class="btn danger sm" data-del-ret="'+safe(x.id)+'">Delete</button></td></tr>'));
+ $('retTable').querySelectorAll('[data-del-ret]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this return record? If its stock was added back, that quantity will be reversed.'))return;const x=B.db.returns.find(z=>z.id===b.dataset.delRet);if(x&&x.restocked){const p=B.db.products.find(z=>z.id===x.productId);if(p){p.stock=Math.max(0,+p.stock-(+x.qty||0));persist('products')}}B.db.returns=B.db.returns.filter(z=>z.id!==b.dataset.delRet);persist('returns');renderReturns();frame.contentWindow.renderProducts();frame.contentWindow.renderDashboard()});
+}
+function renderBusinesses(){
+ const list=getBusinesses(),active=activeId();
+ $('businessList').innerHTML=table(['Business','Created','Status',''],list.map(x=>'<tr><td><b>'+safe(x.name)+'</b></td><td>'+new Date(x.createdAt).toLocaleDateString()+'</td><td>'+(x.id===active?'<span class="workspace-pill">Active</span>':'—')+'</td><td>'+(x.id===active?'': '<button class="btn soft sm" data-switch="'+safe(x.id)+'">Switch</button>')+'</td></tr>'));
+ $('businessList').querySelectorAll('[data-switch]').forEach(b=>b.onclick=()=>switchBusiness(b.dataset.switch));
+}
+function switchBusiness(id){
+ if(id===activeId())return;
+ if(B.isTemporary()){notify('Turn off temporary session mode before switching businesses.');return}
+ saveBusinessData(activeId());setActiveId(id);loadBusinessData(id);renderBusinesses();notify('Business switched');
+}
+function renderInvoices(){
+ const sel=$('invoiceOrder'),old=sel.value;
+ sel.innerHTML='<option value="">Choose an order</option>'+B.db.orders.map(o=>'<option value="'+safe(o.id)+'">'+safe(o.reference||o.id)+' · '+safe(o.customer)+' · '+safe(o.date)+'</option>').join('');
+ if(B.db.orders.some(o=>o.id===old))sel.value=old;
+}
+function renderAnalytics(){
+ const year=+$('analyticsYear').value||new Date().getFullYear();
+ const orders=B.db.orders.filter(o=>(o.date||'').startsWith(String(year))&&o.status!=='Cancelled');
+ const tx=B.db.transactions.filter(t=>(t.date||'').startsWith(String(year)));
+ const vals=Array.from({length:12},(_,m)=>orders.filter(o=>new Date(o.date+'T00:00:00').getMonth()===m).reduce((a,o)=>a+(+o.amount||0),0));
+ const max=Math.max(1,...vals);
+ $('analyticsChart').innerHTML='<div class="workspace-chart">'+vals.map((v,i)=>'<div class="workspace-bar" style="height:'+Math.max(3,v/max*100)+'%"><b>'+Math.round(v).toLocaleString()+'</b><small>'+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][i]+'</small></div>').join('')+'</div>';
+ const inc=tx.filter(t=>t.type==='Income').reduce((a,t)=>a+(+t.amount||0),0),exp=tx.filter(t=>t.type==='Expense').reduce((a,t)=>a+(+t.amount||0),0),sales=orders.reduce((a,o)=>a+(+o.amount||0),0);
+ $('analyticsSummary').innerHTML='<div class="metric"><span>Order sales</span><b>'+money(sales)+'</b></div><div class="metric"><span>Ledger income</span><b>'+money(inc)+'</b></div><div class="metric"><span>Ledger expenses</span><b>'+money(exp)+'</b></div><div class="metric"><span>Ledger net</span><b>'+money(inc-exp)+'</b></div>';
+}
+function makeInvoice(){
+ const o=B.db.orders.find(x=>x.id===$('invoiceOrder').value);if(!o){notify('Choose an order first');return}
+ const html='<!doctype html><html><head><meta charset="utf-8"><title>Invoice '+safe(o.reference)+'</title><style>body{font:14px Arial,sans-serif;padding:32px;color:#182238}h1{margin:0 0 8px}table{width:100%;border-collapse:collapse;margin-top:25px}td,th{padding:12px;border-bottom:1px solid #ddd;text-align:left}.total{text-align:right;font-size:20px;font-weight:bold;margin-top:24px}.muted{color:#667085}@media print{button{display:none}}</style></head><body><h1>INVOICE</h1><p class="muted">'+safe(B.db.prefs.business||'Business')+'</p><hr><p><b>Invoice:</b> '+safe(o.reference||o.id)+'<br><b>Date:</b> '+safe(o.date)+'<br><b>Customer:</b> '+safe(o.customer)+'<br><b>Contact:</b> '+safe(o.phone||'—')+'</p><table><thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead><tbody><tr><td>'+safe(o.item)+'</td><td>'+safe(o.qty)+'</td><td>'+money(o.amount)+'</td></tr></tbody></table><p class="total">Total: '+money(o.amount)+'</p><p>Payment: '+safe(o.payment)+' · Status: '+safe(o.status)+'</p><p class="muted">Thank you for your business.</p><button onclick="window.print()">Print invoice</button></body></html>';
+ const w=window.open('','_blank');if(!w){notify('Allow pop-ups to print the invoice.');return}w.document.open();w.document.write(html);w.document.close();w.focus();
+}
+function generateEAN13(value){
+ const L=['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+ const G=['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+ const R=['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+ const parity=['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+ let digits=String(value||'').replace(/\\D/g,'');
+ if(digits.length!==12&&digits.length!==13)throw new Error('Enter 12 or 13 numeric digits.');
+ const first12=digits.slice(0,12),sum=first12.split('').reduce((a,ch,i)=>a+(+ch)*(i%2?3:1),0);
+ const check=(10-(sum%10))%10;
+ if(digits.length===13&&+digits[12]!==check)throw new Error('The EAN-13 check digit is incorrect. Expected '+check+'.');
+ digits=first12+check;
+ let bits='101',pat=parity[+digits[0]];
+ for(let i=0;i<6;i++)bits+=(pat[i]==='L'?L:G)[+digits[i+1]];
+ bits+='01010';
+ for(let i=7;i<13;i++)bits+=R[+digits[i]];
+ bits+='101';
+ const quiet=10,module=2,offset=quiet*module,total=(bits.length+quiet*2)*module;
+ let bars='';
+ for(let i=0;i<bits.length;i++)if(bits[i]==='1'){
+  const guard=(i<3)||(i>=45&&i<50)||(i>=92);
+  bars+='<rect x="'+(offset+i*module)+'" y="4" width="'+module+'" height="'+(guard?62:52)+'" fill="#111"/>';
+ }
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+total+' 78" width="100%" style="max-width:360px;background:#fff"><rect width="100%" height="100%" fill="#fff"/>'+bars+'<text x="'+(offset-5)+'" y="75" font-family="Arial" font-size="10" text-anchor="end">'+digits[0]+'</text><text x="'+(offset+42*module)+'" y="75" font-family="Arial" font-size="10" text-anchor="middle">'+digits.slice(1,7)+'</text><text x="'+(offset+81*module)+'" y="75" font-family="Arial" font-size="10" text-anchor="middle">'+digits.slice(7)+'</text></svg>';
+ return {digits,svg};
+}
+function setupModules(){
+ const d=frame.contentDocument,main=d.querySelector('main'),employee=d.getElementById('employees');
+ addNav('businesses','My Businesses','▦','suppliers');
+ addNav('purchases','Purchases & Bills','🧾','suppliers');
+ addNav('returns','Returns & Refunds','↩','purchases');
+ addNav('invoices','Invoices & Labels','▤','reports');
+ addNav('analytics','Sales Analytics','▥','invoices');
+ section('businesses','<div class="pagehead"><div><h1>Multi-Business Management</h1><p>Create and switch between separate business workspaces on this device.</p></div></div><div class="notice warning">Local-device profiles only. This is not cloud sync, separate user accounts or secure data isolation.</div><div class="card"><h3>Create a business</h3><form id="businessForm" class="formgrid"><div><label>Business name *</label><input id="businessName" maxlength="80" required></div><div class="field full"><button class="btn">Create business</button></div></form></div><div class="card workspace-section"><div class="cardhead"><h3>Your businesses</h3><span class="workspace-muted">Switching keeps each local workspace separate</span></div><div id="businessList"></div></div>','orders');
+ section('purchases','<div class="pagehead"><div><h1>Purchases & Supplier Bills</h1><p>Record supplier bills and stock purchases.</p></div></div><div class="card"><form id="buyForm" class="formgrid"><div><label>Date *</label><input id="buyDate" type="date" required></div><div><label>Supplier *</label><input id="buySupplier" maxlength="100" required></div><div><label>Bill reference</label><input id="buyRef" maxlength="50"></div><div><label>Product *</label><select id="buyProduct" required></select></div><div><label>Quantity *</label><input id="buyQty" type="number" min="1" step="1" value="1" required></div><div><label>Unit cost *</label><input id="buyCost" type="number" min="0" step=".01" required></div><div><label>Amount paid</label><input id="buyPaid" type="number" min="0" step=".01" value="0"></div><div><label>Stock received</label><select id="buyStock"><option value="yes">Add quantity to stock</option><option value="no">Do not change stock</option></select></div><div class="field full"><label>Notes</label><textarea id="buyNotes" rows="2"></textarea></div><div class="field full"><button class="btn">Save purchase</button></div></form></div><div class="card workspace-section"><div class="cardhead"><h3>Purchase register</h3><input class="search" id="buySearch" placeholder="Search purchases"></div><div id="buyTable"></div></div>','employees');
+ section('returns','<div class="pagehead"><div><h1>Returns & Refunds</h1><p>Track returned items and customer refunds.</p></div></div><div class="card"><form id="retForm" class="formgrid"><div><label>Return date *</label><input id="retDate" type="date" required></div><div><label>Order reference</label><input id="retRef" maxlength="50"></div><div><label>Customer *</label><input id="retCustomer" required maxlength="100"></div><div><label>Product *</label><select id="retProduct" required></select></div><div><label>Quantity *</label><input id="retQty" type="number" min="1" step="1" value="1" required></div><div><label>Refund amount</label><input id="retAmount" type="number" min="0" step=".01" value="0"></div><div><label>Status</label><select id="retStatus"><option>Received</option><option>Inspected</option><option>Refunded</option><option>Rejected</option></select></div><div><label>Restock item?</label><select id="retRestock"><option value="yes">Yes, add to stock</option><option value="no">No restock</option></select></div><div class="field full"><label>Reason / notes</label><textarea id="retReason" rows="2"></textarea></div><div class="field full"><button class="btn">Save return</button></div></form></div><div class="card workspace-section"><div class="cardhead"><h3>Returns register</h3><input class="search" id="retSearch" placeholder="Search returns"></div><div id="retTable"></div></div>','employees');
+ section('invoices','<div class="pagehead"><div><h1>Invoices & Product Labels</h1><p>Prepare a printable invoice from a saved order.</p></div></div><div class="notice">Invoice totals are taken from your saved order. Review customer and amount details before printing. Product labels support standard EAN-13 barcodes from 12-digit numeric codes.</div><div class="card"><label>Select order</label><select id="invoiceOrder"><option value="">Choose an order</option></select><div class="workspace-actions"><button class="btn" id="printInvoice">Preview / Print Invoice</button></div></div><div class="card workspace-section"><h3>EAN-13 product barcode label</h3><div class="formgrid"><div><label>12-digit product code</label><input id="barcodeDigits" inputmode="numeric" maxlength="13" placeholder="Enter 12 digits"></div><div><label>Product (optional)</label><select id="barcodeProduct"><option value="">Choose product</option></select></div></div><div class="workspace-actions"><button class="btn soft" id="makeBarcode">Generate barcode</button><button class="btn outline" id="printBarcode">Print label</button></div><div id="barcodePreview" style="margin-top:14px"></div><p class="workspace-muted">The app calculates and checks the EAN-13 check digit. Non-numeric SKUs need a separate barcode standard.</p></div>','reports');
+ section('analytics','<div class="pagehead"><div><h1>Sales Analytics</h1><p>Monthly order sales and accounting summary.</p></div><div class="yearbox"><label>Year</label><select id="analyticsYear"></select></div></div><div class="card"><h3>Monthly order sales</h3><div id="analyticsChart"></div><p class="workspace-muted">Based on non-cancelled orders saved in this device.</p></div><div class="card workspace-section"><h3>Year summary</h3><div id="analyticsSummary"></div></div>','reports');
+ // Expense categories: keep free-text entry but offer reusable common categories.
+ const cat=$('tCategory');if(cat){const dl=d.createElement('datalist');dl.id='expenseCategoryList';dl.innerHTML=['Rent','Utilities','Salaries','Marketing','Packaging','Transport','Inventory','Repairs','Software','Other'].map(x=>'<option value="'+x+'">').join('');d.body.appendChild(dl);cat.setAttribute('list','expenseCategoryList');}
+ // Local staff permission planning panel. It does not enforce authentication.
+ if(employee){
+  const panel=d.createElement('div');panel.className='card workspace-section';panel.innerHTML='<h3>Staff roles & permission plan</h3><p class="notice warning">Planning only: this prototype has no staff sign-in or server-enforced permissions. These selections are not a security boundary.</p><div class="workspace-grid"><div><label>Role</label><select id="roleSelect"><option>Owner</option><option>Manager</option><option>Sales</option><option>Inventory</option><option>Accounts</option></select></div><div><label>Permissions</label><div id="roleChecks"></div></div></div><button class="btn soft sm" id="saveRolePermissions">Save role plan</button><p class="workspace-muted" id="roleSaved"></p>';
+  employee.appendChild(panel);
+  const roleDefaults={Owner:['dashboard','orders','products','accounting','customers','suppliers','employees','reports','settings'],Manager:['dashboard','orders','products','customers','suppliers','reports'],Sales:['dashboard','orders','customers'],Inventory:['dashboard','products','suppliers'],Accounts:['dashboard','accounting','reports']};
+  const rolePerms=()=>{try{return JSON.parse(localStorage.getItem('nuvora_role_permissions')||'{}')}catch(e){return{}}};
+  function drawRoles(){const role=$('roleSelect').value,stored=rolePerms(),chosen=stored[role]||roleDefaults[role];$('roleChecks').innerHTML=['dashboard','orders','products','accounting','customers','suppliers','employees','reports','settings'].map(k=>'<label style="display:block"><input type="checkbox" class="rolePerm" value="'+k+'" '+(chosen.includes(k)?'checked':'')+' style="width:auto"> '+k+'</label>').join('')}
+  $('roleSelect').onchange=drawRoles;drawRoles();
+  $('saveRolePermissions').onclick=()=>{if(B.isTemporary()){notify('Turn off temporary session mode before saving role plans.');return}const x=rolePerms();x[$('roleSelect').value]=[...d.querySelectorAll('.rolePerm:checked')].map(e=>e.value);localStorage.setItem('nuvora_role_permissions',JSON.stringify(x));$('roleSaved').textContent='Local role plan saved.'};
+ }
+ // Forms and search listeners
+ $('businessForm').onsubmit=e=>{e.preventDefault();if(B.isTemporary()){notify('Turn off temporary mode to create a saved business.');return}const name=$('businessName').value.trim();if(!name)return;saveBusinessData(activeId());const id='biz-'+Date.now().toString(36);const list=getBusinesses();list.push({id,name,createdAt:new Date().toISOString()});setBusinesses(list);setActiveId(id);KEYS.forEach(k=>{B.db[k]=(k==='store'||k==='prefs')?{}:[];persist(k)});B.db.prefs={business:name,currency:'USD'};B.setCurrency('USD');persist('prefs');saveBusinessData(id);frame.contentWindow.refreshAll();$('businessName').value='';renderBusinesses();notify('New business created')};
+ $('buyDate').value=today();$('retDate').value=today();
+ $('buyForm').onsubmit=e=>{e.preventDefault();const p=B.db.products.find(x=>x.id===$('buyProduct').value),qty=+$('buyQty').value,cost=+$('buyCost').value,total=qty*cost,paid=+$('buyPaid').value;if(!p){notify('Choose a product.');return}if(paid>total){notify('Paid amount cannot exceed total.');return}B.db.purchases.push({id:frame.contentWindow.id(),date:$('buyDate').value,supplier:$('buySupplier').value.trim(),reference:$('buyRef').value.trim(),productId:p.id,productName:p.name,qty,unitCost:cost,total,paid,stockAdded:$('buyStock').value==='yes',notes:$('buyNotes').value.trim()});if($('buyStock').value==='yes'){p.stock=+p.stock+qty;persist('products')}persist('purchases');e.target.reset();$('buyDate').value=today();$('buyQty').value=1;$('buyPaid').value=0;renderPurchases();frame.contentWindow.renderProducts();frame.contentWindow.renderDashboard();notify('Purchase saved')};
+ $('retForm').onsubmit=e=>{e.preventDefault();const p=B.db.products.find(x=>x.id===$('retProduct').value),qty=+$('retQty').value;if(!p){notify('Choose a product.');return}const restocked=$('retRestock').value==='yes';B.db.returns.push({id:frame.contentWindow.id(),date:$('retDate').value,reference:$('retRef').value.trim(),customer:$('retCustomer').value.trim(),productId:p.id,productName:p.name,qty,amount:+$('retAmount').value,status:$('retStatus').value,restocked,reason:$('retReason').value.trim()});if(restocked){p.stock=+p.stock+qty;persist('products')}persist('returns');e.target.reset();$('retDate').value=today();$('retQty').value=1;$('retAmount').value=0;renderReturns();frame.contentWindow.renderProducts();frame.contentWindow.renderDashboard();notify('Return saved')};
+ $('buySearch').oninput=renderPurchases;$('retSearch').oninput=renderReturns;
+ $('printInvoice').onclick=makeInvoice;
+ const barcodeProduct=$('barcodeProduct');
+ barcodeProduct.innerHTML='<option value="">Choose product</option>'+B.db.products.map(p=>'<option value="'+safe(p.id)+'">'+safe(p.name)+(p.sku?' · '+safe(p.sku):'')+'</option>').join('');
+ barcodeProduct.onchange=()=>{const p=B.db.products.find(x=>x.id===barcodeProduct.value);if(p&&/^\\d{12,13}$/.test(p.sku||''))$('barcodeDigits').value=p.sku};
+ $('makeBarcode').onclick=()=>{try{const out=generateEAN13($('barcodeDigits').value);$('barcodeDigits').value=out.digits;$('barcodePreview').innerHTML='<div style="display:inline-block;border:1px solid #e5e9f1;border-radius:10px;padding:12px;background:white"><b>'+safe(barcodeProduct.selectedOptions[0]?.textContent||'Product label')+'</b>'+out.svg+'<div style="text-align:center;font:12px monospace">'+out.digits+'</div></div>'}catch(err){notify(err.message)}};
+ $('printBarcode').onclick=()=>{const box=$('barcodePreview').querySelector('svg');if(!box){notify('Generate a barcode first.');return}const w=window.open('','_blank');if(!w){notify('Allow pop-ups to print the label.');return}w.document.write('<html><head><title>EAN-13 label</title></head><body style="font:14px Arial;padding:20px;text-align:center">'+box.outerHTML+'<p>'+safe($('barcodeDigits').value)+'</p><script>window.print()<\\/script></body></html>');w.document.close()};
+ const ys=new Set([new Date().getFullYear(),...B.db.orders.map(x=>+(x.date||'').slice(0,4)).filter(Boolean),...B.db.transactions.map(x=>+(x.date||'').slice(0,4)).filter(Boolean)]);
+ $('analyticsYear').innerHTML=[...ys].sort((a,b)=>b-a).map(y=>'<option>'+y+'</option>').join('');$('analyticsYear').onchange=renderAnalytics;
+ // Backup includes all modules and all business workspaces; restore remains backward-compatible.
+ const oldBackup=$('backupBtn');if(oldBackup){const fresh=oldBackup.cloneNode(true);oldBackup.parentNode.replaceChild(fresh,oldBackup);fresh.onclick=()=>{saveBusinessData(activeId());const payload={app:'Business Workspace',version:5,exportedAt:new Date().toISOString(),activeBusinessId:activeId(),businesses:getBusinesses(),rolePermissions:(()=>{try{return JSON.parse(localStorage.getItem('nuvora_role_permissions')||'{}')}catch(e){return{}}})(),data:snapshot(),businessData:Object.fromEntries(getBusinesses().map(x=>[x.id,localStorage.getItem('nuvora_business_data_'+x.id)]))};frame.contentWindow.download(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),'business-workspace-backup-'+today()+'.json');$('backupStatus').textContent='Backup includes this business, purchases, returns and local business profiles.'}};
+ const oldRestore=$('restoreFile');if(oldRestore){const fresh=oldRestore.cloneNode(true);oldRestore.parentNode.replaceChild(fresh,oldRestore);fresh.onchange=async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;try{if(B.isTemporary())throw Error('Turn off temporary session mode before restoring a backup.');const parsed=JSON.parse(await f.text()),data=parsed.data||parsed;const required=['orders','products','transactions','customers','suppliers','employees','store','prefs'];if(!required.every(k=>Object.prototype.hasOwnProperty.call(data,k)))throw Error('Backup file is incomplete.');if(!confirm('Restore backup? Current active business data will be replaced. Download a backup first.'))return;KEYS.forEach(k=>{B.db[k]=data[k]??((k==='store'||k==='prefs')?{}:[]);persist(k)});B.setCurrency(B.db.prefs.currency||'USD');if(parsed.rolePermissions)localStorage.setItem('nuvora_role_permissions',JSON.stringify(parsed.rolePermissions));if(Array.isArray(parsed.businesses)){setBusinesses(parsed.businesses);if(parsed.activeBusinessId)setActiveId(parsed.activeBusinessId);if(parsed.businessData)Object.entries(parsed.businessData).forEach(([id,val])=>{if(val)localStorage.setItem('nuvora_business_data_'+id,val)})}saveBusinessData(activeId());frame.contentWindow.refreshAll();renderBusinesses();renderPurchases();renderReturns();renderInvoices();renderAnalytics();$('backupStatus').textContent='Backup restored on this device.';notify('Backup restored')}catch(err){notify(err.message||'Could not restore backup')}e.target.value=''}};
+}
+function install(){
+ try{
+  const d=frame.contentDocument;if(!d||!d.querySelector('main')||!frame.contentWindow.showPage)return;
+  if(ready&&docRef===d)return;
+  docRef=d;ready=false;
+  injectBridge();ensureArrays();addStyle();
+  originalShow=frame.contentWindow.showPage;
+  initBusinesses();
+  addBackbar();setupModules();hookNavigation();
+  ready=true;current='dashboard';stack=['dashboard'];updateBar('dashboard');
+  // Start on dashboard, without disturbing existing saved records.
+  originalShow('dashboard');
+ }catch(e){console.error('Workspace setup failed:',e);setTimeout(install,500)}
+}
+frame.addEventListener('load',install);
+window.addEventListener('popstate',()=>{
+ if(!ready)return;
+ if(stack.length>1){stack.pop();current=stack[stack.length-1]}else{current='dashboard';stack=['dashboard']}
+ originalShow(current);renderPage(current);updateBar(current);
+});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js',{scope:'./'}).then(r=>r.update()).catch(()=>{}))}
+})();
+</script>
 </body>
 </html>
