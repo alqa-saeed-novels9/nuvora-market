@@ -3,28 +3,214 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101827">
+  <meta name="theme-color" content="#080b22">
   <meta name="description" content="Nuvora Market — an all-in-one business workspace.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Nuvora Market">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./nuvora-app-icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="./nuvora-icon-192.png">
+  <link rel="apple-touch-icon" href="./nuvora-icon-512.png">
   <title>Nuvora Market</title>
   <style>
-    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#101827}
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#080b22}
     iframe{display:block;width:100%;height:100%;height:100dvh;border:0;background:#f4f6fb}
   </style>
 </head>
 <body>
-  <iframe title="Nuvora Market business workspace" src="./index.html" allow="clipboard-write"></iframe>
+  <iframe id="nuvoraFrame" title="Nuvora Market business workspace" src="./index.html" allow="clipboard-write"></iframe>
   <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("./service-worker.js", {scope:"./"})
-          .catch(function (error) { console.warn("Offline setup could not start:", error); });
+  (function(){
+    const frame=document.getElementById('nuvoraFrame');
+    let injected=false, stack=['dashboard'], current='dashboard', lastDoc=null;
+    function install(){
+      if(frame.contentDocument!==lastDoc){lastDoc=frame.contentDocument;injected=false;stack=['dashboard'];current='dashboard';}
+      if(injected)return;
+      let w,d;
+      try{w=frame.contentWindow;d=frame.contentDocument;if(!w||!d||!w.showPage||!B.db)return;}catch(e){return;}
+      injected=true;
+      const bridge=d.createElement('script');
+      bridge.textContent='window.__nuvoraBridge={db:db,persist:persist,today:today,setCurrency:function(v){currency=v;}};';
+      d.body.appendChild(bridge);
+      const B=w.__nuvoraBridge;
+      if(!B){injected=false;return;}
+      const originalShow=w.showPage;
+      B.db.purchases=Array.isArray(B.db.purchases)?B.db.purchases:[];
+      B.db.returns=Array.isArray(B.db.returns)?B.db.returns:[];
+      const style=d.createElement('style');
+      style.textContent='.nuvora-backbar{display:flex;align-items:center;gap:9px;margin:0 0 14px}.nuvora-backbar button{border:1px solid #e5e9f1;background:#fff;color:#3d4860;border-radius:9px;padding:8px 12px;font-weight:700}.nuvora-backbar span{font-size:12px;color:#748096}.logo img{width:100%;height:100%;object-fit:cover}';
+      d.head.appendChild(style);
+      const brandLogo=d.querySelector('.logo');if(brandLogo)brandLogo.innerHTML='<img src="./nuvora-icon-192.png" alt="Nuvora Market">';
+
+      const main=d.querySelector('main');
+      if(!main)return;
+      const back=d.createElement('div');
+      back.className='nuvora-backbar';
+      back.innerHTML='<button type="button" id="nuvoraBack">← Back</button><button type="button" id="nuvoraHome">Home</button><span id="nuvoraTrail">Workspace</span>';
+      main.insertBefore(back,main.firstChild);
+      function updateBar(p){
+        back.hidden=(p==='dashboard');
+        const sec=d.getElementById(p);
+        const h=sec&&sec.querySelector('h1');
+        d.getElementById('nuvoraTrail').textContent=h?h.textContent:'Workspace';
+      }
+      function goBack(){if(stack.length>1){history.back();}else{current='dashboard';stack=['dashboard'];originalShow('dashboard');updateBar('dashboard');}}
+      d.getElementById('nuvoraBack').addEventListener('click',goBack);
+      d.getElementById('nuvoraHome').addEventListener('click',function(){stack=['dashboard'];current='dashboard';originalShow('dashboard');updateBar('dashboard');});
+      function show(p,fromPop){
+        if(p!==current){stack.push(p);current=p;if(!fromPop){try{history.pushState({nuvoraPage:p},'','#'+p);}catch(e){}}}
+        originalShow(p);renderIfNeeded(p);updateBar(p);
+      }
+      w.showPage=show;
+
+      const nav=d.getElementById('nav');
+      const supplier=nav&&nav.querySelector('[data-page="suppliers"]');
+      function addNav(id,label,icon){
+        const b=d.createElement('button');b.type='button';b.dataset.page=id;
+        b.innerHTML='<span class="ico">'+icon+'</span>'+label;
+        b.addEventListener('click',function(){show(id,false);});
+        if(supplier&&supplier.parentNode)supplier.parentNode.insertBefore(b,supplier.nextSibling);
+      }
+      addNav('purchases','Purchases & Bills','🧾');
+      addNav('returns','Returns & Refunds','↩');
+
+      const employee=d.getElementById('employees');
+      const purchases=d.createElement('section');
+      purchases.id='purchases';purchases.className='view hidden';
+      purchases.innerHTML='<div class="pagehead"><div><h1>Purchases & Supplier Bills</h1><p>Record stock purchases, supplier invoices and payments.</p></div></div>'+
+      '<div class="card"><h3 style="margin:0 0 13px">Add purchase</h3><form id="nuBuyForm" class="formgrid">'+
+      '<div><label>Purchase date *</label><input id="nuBuyDate" type="date" required></div><div><label>Supplier *</label><input id="nuBuySupplier" required maxlength="100"></div>'+
+      '<div><label>Bill / invoice reference</label><input id="nuBuyRef" maxlength="50"></div><div><label>Product *</label><select id="nuBuyProduct" required></select></div>'+
+      '<div><label>Quantity *</label><input id="nuBuyQty" type="number" min="1" step="1" value="1" required></div><div><label>Unit cost *</label><input id="nuBuyCost" type="number" min="0" step=".01" required></div>'+
+      '<div><label>Amount paid</label><input id="nuBuyPaid" type="number" min="0" step=".01" value="0"></div><div><label>Stock received</label><select id="nuBuyStock"><option value="yes">Add quantity to stock</option><option value="no">Do not change stock</option></select></div>'+
+      '<div class="field full"><label>Notes</label><textarea id="nuBuyNotes" rows="2"></textarea></div><div class="field full"><button class="btn">Save purchase</button></div></form></div>'+
+      '<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Purchase register</h3><input class="search" id="nuBuySearch" placeholder="Search supplier, bill, product..."></div><div id="nuBuyTable"></div></div>';
+      if(employee)main.insertBefore(purchases,employee);
+      const returns=d.createElement('section');
+      returns.id='returns';returns.className='view hidden';
+      returns.innerHTML='<div class="pagehead"><div><h1>Returns & Refunds</h1><p>Track customer returns, refunds and returned stock.</p></div></div>'+
+      '<div class="card"><h3 style="margin:0 0 13px">Record a return</h3><form id="nuRetForm" class="formgrid">'+
+      '<div><label>Return date *</label><input id="nuRetDate" type="date" required></div><div><label>Original order reference</label><input id="nuRetRef" maxlength="50"></div>'+
+      '<div><label>Customer *</label><input id="nuRetCustomer" required maxlength="100"></div><div><label>Product *</label><select id="nuRetProduct" required></select></div>'+
+      '<div><label>Quantity *</label><input id="nuRetQty" type="number" min="1" step="1" value="1" required></div><div><label>Refund amount</label><input id="nuRetAmount" type="number" min="0" step=".01" value="0"></div>'+
+      '<div><label>Return status</label><select id="nuRetStatus"><option>Received</option><option>Inspected</option><option>Refunded</option><option>Rejected</option></select></div><div><label>Restock item?</label><select id="nuRetRestock"><option value="yes">Yes, add back to stock</option><option value="no">No, do not restock</option></select></div>'+
+      '<div class="field full"><label>Reason / notes</label><textarea id="nuRetReason" rows="2"></textarea></div><div class="field full"><button class="btn">Save return</button></div></form></div>'+
+      '<div class="card" style="margin-top:14px"><div class="cardhead"><h3>Returns register</h3><input class="search" id="nuRetSearch" placeholder="Search customer, order, product..."></div><div id="nuRetTable"></div></div>';
+      if(employee)main.insertBefore(returns,employee);
+
+      const checks=d.querySelector('.checkgrid');
+      if(checks){
+        ['purchases','returns'].forEach(function(k){
+          const lab=d.createElement('label');lab.innerHTML='<input class="deleteChoice" type="checkbox" value="'+k+'"> '+(k==='purchases'?'Purchases & bills':'Returns & refunds');checks.appendChild(lab);
+        });
+      }
+
+      function $(id){return d.getElementById(id);}
+      function esc(v){return w.esc(v);}
+      function money(v){return w.money(v);}
+      function persist(k){return B.persist(k);}
+      function toast(v){w.toast(v);}
+      function today(){return B.today();}
+      function productOptions(el){
+        const old=el.value;
+        el.innerHTML='<option value="">Choose product</option>'+B.db.products.map(function(p){return '<option value="'+p.id+'">'+esc(p.name)+(p.sku?' · '+esc(p.sku):'')+'</option>';}).join('');
+        if(B.db.products.some(p=>p.id===old))el.value=old;
+      }
+      function table(headers,rows){return w.table(headers,rows);}
+      function renderPurchases(){
+        productOptions($('nuBuyProduct'));
+        const q=$('nuBuySearch').value.toLowerCase();
+        const list=B.db.purchases.filter(x=>[x.supplier,x.reference,x.productName,x.notes].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
+        $('nuBuyTable').innerHTML=table(['Date','Supplier','Bill ref','Product','Qty','Total','Paid','Balance',''],list.map(function(x){
+          return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.supplier)+'</td><td>'+esc(x.reference||'—')+'</td><td>'+esc(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.total)+'</td><td>'+money(x.paid)+'</td><td>'+money(Math.max(0,x.total-x.paid))+'</td><td><button class="btn danger sm" data-del-purchase="'+x.id+'">Delete</button></td></tr>';
+        }));
+        $('nuBuyTable').querySelectorAll('[data-del-purchase]').forEach(function(b){b.addEventListener('click',function(){if(!confirm('Delete this purchase record?'))return;const item=B.db.purchases.find(x=>x.id===b.dataset.delPurchase);if(item&&item.stockAdded){const prod=B.db.products.find(x=>x.id===item.productId);if(prod){prod.stock=Math.max(0,+prod.stock-(+item.qty||0));persist('products');}}B.db.purchases=B.db.purchases.filter(x=>x.id!==b.dataset.delPurchase);persist('purchases');renderPurchases();});});
+      }
+      function renderReturns(){
+        productOptions($('nuRetProduct'));
+        const q=$('nuRetSearch').value.toLowerCase();
+        const list=B.db.returns.filter(x=>[x.customer,x.reference,x.productName,x.reason,x.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));
+        $('nuRetTable').innerHTML=table(['Date','Order ref','Customer','Product','Qty','Refund','Status','Restocked',''],list.map(function(x){
+          return '<tr><td>'+esc(x.date)+'</td><td>'+esc(x.reference||'—')+'</td><td>'+esc(x.customer)+'</td><td>'+esc(x.productName)+'</td><td>'+x.qty+'</td><td>'+money(x.amount)+'</td><td>'+w.statusPill(x.status)+'</td><td>'+(x.restocked?'Yes':'No')+'</td><td><button class="btn danger sm" data-del-return="'+x.id+'">Delete</button></td></tr>';
+        }));
+        $('nuRetTable').querySelectorAll('[data-del-return]').forEach(function(b){b.addEventListener('click',function(){if(!confirm('Delete this return record?'))return;B.db.returns=B.db.returns.filter(x=>x.id!==b.dataset.delReturn);persist('returns');renderReturns();});});
+      }
+      function renderIfNeeded(p){if(p==='purchases')renderPurchases();if(p==='returns')renderReturns();}
+      $('nuBuyDate').value=today();$('nuRetDate').value=today();
+      $('nuBuyForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        const p=B.db.products.find(x=>x.id===$('nuBuyProduct').value);
+        const qty=+$('nuBuyQty').value,unit=+$('nuBuyCost').value,total=qty*unit,paid=+$('nuBuyPaid').value;
+        if(!p){toast('Choose a product first');return;}
+        if(paid>total){toast('Paid amount cannot exceed purchase total');return;}
+        B.db.purchases.push({id:w.id(),date:$('nuBuyDate').value,supplier:$('nuBuySupplier').value.trim(),reference:$('nuBuyRef').value.trim(),productId:p.id,productName:p.name,qty:qty,unitCost:unit,total:total,paid:paid,stockAdded:$('nuBuyStock').value==='yes',notes:$('nuBuyNotes').value.trim()});
+        if($('nuBuyStock').value==='yes'){p.stock=+p.stock+qty;persist('products');}
+        persist('purchases');this.reset();$('nuBuyDate').value=today();$('nuBuyQty').value=1;$('nuBuyPaid').value=0;renderPurchases();w.renderProducts();w.renderDashboard();toast('Purchase saved');
       });
+      $('nuRetForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        const p=B.db.products.find(x=>x.id===$('nuRetProduct').value),qty=+$('nuRetQty').value;
+        if(!p){toast('Choose a product first');return;}
+        const restocked=$('nuRetRestock').value==='yes';
+        B.db.returns.push({id:w.id(),date:$('nuRetDate').value,reference:$('nuRetRef').value.trim(),customer:$('nuRetCustomer').value.trim(),productId:p.id,productName:p.name,qty:qty,amount:+$('nuRetAmount').value,status:$('nuRetStatus').value,restocked:restocked,reason:$('nuRetReason').value.trim()});
+        if(restocked){p.stock=+p.stock+qty;persist('products');}
+        persist('returns');this.reset();$('nuRetDate').value=today();$('nuRetQty').value=1;$('nuRetAmount').value=0;renderReturns();w.renderProducts();w.renderDashboard();toast('Return saved');
+      });
+      $('nuBuySearch').addEventListener('input',renderPurchases);
+      $('nuRetSearch').addEventListener('input',renderReturns);
+
+      // Extend backup/restore to include the two new registers while retaining older backups.
+      const oldBackup=$('backupBtn');
+      if(oldBackup){
+        const fresh=oldBackup.cloneNode(true);oldBackup.parentNode.replaceChild(fresh,oldBackup);
+        fresh.addEventListener('click',function(){
+          const backup={app:'Nuvora Market',version:4,exportedAt:new Date().toISOString(),data:B.db};
+          w.download(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),'nuvora-market-backup-'+today()+'.json');
+          $('backupStatus').textContent='Full backup downloaded, including purchases and returns.';
+        });
+      }
+      const oldRestore=$('restoreFile');
+      if(oldRestore){
+        const fresh=oldRestore.cloneNode(true);oldRestore.parentNode.replaceChild(fresh,oldRestore);
+        fresh.addEventListener('change',async function(e){
+          const f=e.target.files&&e.target.files[0];if(!f)return;
+          try{
+            const parsed=JSON.parse(await f.text()),data=parsed.data||parsed;
+            const required=['orders','products','transactions','customers','suppliers','employees','store','prefs'];
+            if(!required.every(k=>Object.prototype.hasOwnProperty.call(data,k)))throw new Error('This is not a valid Nuvora Market backup.');
+            if(!confirm('Restore this backup? Current local records will be replaced.'))return;
+            ['orders','products','transactions','customers','suppliers','employees','store','prefs','purchases','returns'].forEach(function(k){
+              B.db[k]=data[k]??((k==='store'||k==='prefs')?{}:[]);B.persist(k);
+            });
+            w.currency=B.db.prefs.currency||'USD';w.refreshAll();renderPurchases();renderReturns();
+            $('backupStatus').textContent='Backup restored on this device.';toast('Backup restored');
+          }catch(err){toast(err.message||'Could not read backup');}
+          e.target.value='';
+        });
+      }
+      function replaceClearButton(id,includeAll){
+        const old=$(id);if(!old)return;
+        const fresh=old.cloneNode(true);old.parentNode.replaceChild(fresh,old);
+        fresh.addEventListener('click',function(){
+          if(!confirm('Permanently delete local Nuvora records? Download a backup first.'))return;
+          const keys=['orders','products','transactions','customers','suppliers','employees','store','prefs','purchases','returns'];
+          keys.forEach(function(k){w.localStorage.removeItem('nuvora_'+k);B.db[k]=(k==='store'||k==='prefs')?{}:[];});
+          w.localStorage.removeItem('nuvora_last_saved');w.refreshAll();renderPurchases();renderReturns();toast('Local data cleared');
+        });
+      }
+      replaceClearButton('clearData',true);
+      replaceClearButton('privacyDeleteAll',true);
+      updateBar('dashboard');
     }
+    frame.addEventListener('load',install);
+    window.addEventListener('popstate',function(){
+      if(!injected)return;
+      if(stack.length>1){stack.pop();current=stack[stack.length-1];try{frame.contentWindow.showPage(current,true);}catch(e){}}
+      else{stack=['dashboard'];current='dashboard';try{frame.contentWindow.showPage('dashboard',true);}catch(e){}}
+      try{const d=frame.contentDocument;const bar=d.querySelector('.nuvora-backbar');bar.hidden=(current==='dashboard');const h=d.getElementById(current).querySelector('h1');d.getElementById('nuvoraTrail').textContent=h?h.textContent:'Workspace';}catch(e){}
+    });
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js',{scope:'./'}).catch(function(e){console.warn('Offline setup could not start:',e);});});}
+  })();
   </script>
 </body>
 </html>
