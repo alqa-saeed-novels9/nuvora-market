@@ -1,19 +1,23 @@
 {
-  "id": "./Nuvora_Market_App.html",
   "name": "Nuvora Market",
   "short_name": "Nuvora",
-  "description": "Nuvora Market business workspace",
+  "description": "Nuvora Market business platform",
   "start_url": "./Nuvora_Market_App.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#101827",
-  "theme_color": "#101827",
+  "background_color": "#080b22",
+  "theme_color": "#080b22",
   "icons": [
     {
-      "src": "./nuvora-app-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "./nuvora-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./nuvora-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
