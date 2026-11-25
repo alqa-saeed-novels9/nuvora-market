@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b22">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest-portrait.webmanifest">
+<link rel="apple-touch-icon" href="./nuvora-icon-512.png">
+<title>Business Workspace</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;min-height:100%;overflow:hidden;background:#080b22}
+#appFrame{display:block;width:100%;height:100%;height:100vh;height:100dvh;min-height:100%;border:0;background:#f4f6fb}
+</style>
+</head>
+<body>
+<iframe id="appFrame" title="Business workspace" src="./Nuvora_Market_App.html" allow="clipboard-write"></iframe>
+<script>
+(function(){
+'use strict';
+const outerFrame=document.getElementById('appFrame');
+let patched=false;
+function installTodayBridge(){
+  try{
+    const wrapperDoc=outerFrame.contentDocument;
+    if(!wrapperDoc)return false;
+    const appFrame=wrapperDoc.getElementById('appFrame');
+    if(!appFrame)return false;
+    function patchAppWindow(){
+      try{
+        const appWindow=appFrame.contentWindow;
+        if(!appWindow)return false;
+        if(typeof appWindow.today!=='function'){
+          appWindow.today=function(){return new Date().toISOString().slice(0,10)};
+        }
+        patched=true;
+        return true;
+      }catch(e){return false}
+    }
+    if(appFrame.contentDocument && appFrame.contentDocument.readyState==='complete'){
+      if(patchAppWindow())return true;
+    }
+    appFrame.addEventListener('load',patchAppWindow,{once:true});
+    return patchAppWindow();
+  }catch(e){return false}
+}
+outerFrame.addEventListener('load',function(){
+  installTodayBridge();
+  // The original wrapper retries its setup after an initialization exception.
+  // Re-apply the compatibility bridge while its inner app frame finishes loading.
+  let attempts=0;
+  const timer=setInterval(function(){
+    attempts++;
+    if(installTodayBridge()||attempts>=40)clearInterval(timer);
+  },200);
+});
+})();
+</script>
+</body>
+</html>
